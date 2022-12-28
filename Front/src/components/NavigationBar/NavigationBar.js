@@ -12,7 +12,7 @@ export const NavigationBar = () => {
             flexGrow: 1,
             textDecoration: "none",
             boxShadow: "none",
-            color: "#fff",
+            color: "#fff"
           }}
           component={Link}
           to={"/"}
@@ -20,7 +20,7 @@ export const NavigationBar = () => {
           Store
         </Typography>
         <Link to={"/cart"}>
-          <IconButton>
+          <IconButton color="action">
             <ShoppingCart />
           </IconButton>
         </Link>
