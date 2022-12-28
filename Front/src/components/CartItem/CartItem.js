@@ -1,13 +1,12 @@
-import { Grid, Typography, CardMedia, Divider } from "@mui/material";
+import { Grid, Typography, Divider } from "@mui/material";
+import { StyledCardMedia } from "./Cartitem.style";
 
-export const CartItem = ({
-  cartItem: { name, price, imageURL, description, _id },
-}) => {
+export const CartItem = ({ cartItem: { name, price, imageURL, description, _id } }) => {
   return (
     <>
       <Grid container spacing={2}>
         <Grid item>
-          <CardMedia component="img" sx={{ width: 151 }} image={imageURL} />
+          <StyledCardMedia component="img" image={imageURL} />
         </Grid>
         <Grid item xs={22} sm container>
           <Grid item xs container direction="column" spacing={2}>
