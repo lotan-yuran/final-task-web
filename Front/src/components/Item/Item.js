@@ -1,19 +1,12 @@
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { StyledCard } from "./Item.style";
 import { AddShoppingCart } from "@mui/icons-material";
+import { CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from "@mui/material";
 
 export const Item = ({ item, addItemToCart }) => {
   const { name, price, imageURL, description } = item;
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <StyledCard>
       <CardHeader title={name} />
       <CardMedia component="img" height="150" image={imageURL} />
       <CardContent>
@@ -29,6 +22,6 @@ export const Item = ({ item, addItemToCart }) => {
           <AddShoppingCart />
         </IconButton>
       </CardActions>
-    </Card>
+    </StyledCard>
   );
 };
