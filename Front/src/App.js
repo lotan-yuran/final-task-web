@@ -1,8 +1,7 @@
-import { muiTheme } from "./MuiTheme";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Store, Cart, Login } from "./pages";
 import { NavigationBar } from "./components";
-import { ThemeProvider } from "@mui/material";
 import storeService from "./services/storeService";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
 
@@ -24,22 +23,22 @@ export default function App() {
   const LayoutNavbar = () => (
     <>
       <NavigationBar />
-      <Outlet />
+      <Box sx={{ m: 3 }}>
+        <Outlet />
+      </Box>
     </>
   );
 
   return (
     <Router>
-      <ThemeProvider theme={muiTheme}>
-        <Routes>
-          <Route path="/" element={<LayoutNavbar />}>
-            <Route path="/" element={<Store addItemToCart={addItemToCart} items={items} />} />
-            <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          {/* <Route path="/register" element={<Register />} /> */}
-        </Routes>
-      </ThemeProvider>
+      <Routes>
+        <Route path="/" element={<LayoutNavbar />}>
+          <Route path="/" element={<Store addItemToCart={addItemToCart} items={items} />} />
+          <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/register" element={<Register />} /> */}
+      </Routes>
     </Router>
   );
 }

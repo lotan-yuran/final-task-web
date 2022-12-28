@@ -7,7 +7,7 @@ export const muiTheme = createTheme({
       main: grey[900]
     },
     secondary: {
-      main: grey[600]
+      main: "#9faec5"
     },
     action: {
       main: blue[50]
