@@ -18,7 +18,20 @@ export default function App() {
   }, []);
 
   const addItemToCart = item => {
-    setCartItems(prev => [...prev, item]);
+    setCartItems(prevCartItem => {
+      const existingItem = prevCartItem.find(currItem => {
+        return currItem._id === item._id;
+      });
+
+      // If already exists increase quantity
+      if (existingItem) {
+        existingItem.quantity++;
+        return [...prevCartItem];
+      } else {
+        // Add new item into the cart
+        return [...prevCartItem, { ...item, quantity: 1 }];
+      }
+    });
   };
 
   const LayoutNavbar = () => (
