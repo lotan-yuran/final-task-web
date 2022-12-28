@@ -1,10 +1,18 @@
-import { Grid, Typography, Divider } from "@mui/material";
+import { Grid, Typography, Divider, ButtonGroup, Button } from "@mui/material";
 import { StyledCardMedia } from "./Cartitem.style";
 
-export const CartItem = ({ cartItem: { name, price, imageURL, description, _id } }) => {
+export const CartItem = ({ cartItem: { name, price, imageURL, description, _id, quantity } }) => {
+  const handleIncrement = () => {
+    console.log("+1");
+  };
+
+  const handleDecrement = () => {
+    console.log("-1");
+  };
+
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid item>
           <StyledCardMedia component="img" image={imageURL} />
         </Grid>
@@ -24,7 +32,15 @@ export const CartItem = ({ cartItem: { name, price, imageURL, description, _id }
           </Grid>
           <Grid item>
             <Typography variant="subtitle1" component="div">
-              {price}$
+              Item Price: {price}$
+            </Typography>
+            <ButtonGroup size="small" aria-label="small outlined button group">
+              <Button onClick={handleIncrement}>+</Button>
+              <Button disabled>{quantity}</Button>
+              <Button onClick={handleDecrement}>-</Button>
+            </ButtonGroup>
+            <Typography variant="subtitle1" component="div">
+              Total: {price * quantity}$
             </Typography>
           </Grid>
         </Grid>

@@ -9,7 +9,10 @@ export const Cart = ({ cartItems, setCartItems }) => {
   const [userDetails, setUserDetails] = useState({});
 
   const totalPrice = cartItems
-    .reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.price), 0)
+    .reduce(
+      (accumulator, currentValue) => accumulator + currentValue.quantity * parseFloat(currentValue.price),
+      0
+    )
     .toFixed(3);
 
   const onClickBuyHandler = () => {
