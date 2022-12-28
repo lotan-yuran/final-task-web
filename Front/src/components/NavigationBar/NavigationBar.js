@@ -11,7 +11,7 @@ export const NavigationBar = () => {
           Store
         </StyledTypography>
         <Link to={"/cart"}>
-          <IconButton>
+          <IconButton color="action">
             <ShoppingCart />
           </IconButton>
         </Link>
