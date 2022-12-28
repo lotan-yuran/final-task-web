@@ -9,23 +9,6 @@ export const Item = ({ item }) => {
   const [cartItems, setCartItems] = useRecoilState(cartItemsState);
 
   const addItemToCart = newItem => {
-    // setCartItems(prevCartItems => {
-    //   const newCartItem =
-    //     prevCartItems.length > 0
-    //       ? prevCartItems.map(item => {
-    //           if (item._id === newItem._id) {
-    //             return {
-    //               ...item,
-    //               count: item.quantity + 1
-    //             };
-    //           } else {
-    //             return item;
-    //           }
-    //         })
-    //       : [{ ...newItem, quantity: 1 }];
-    //   return [...newCartItem];
-    // });
-
     setCartItems(prevCartItem => {
       const existingItem = prevCartItem.find(item => {
         return newItem._id === item._id;

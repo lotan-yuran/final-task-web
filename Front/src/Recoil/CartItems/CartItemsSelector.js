@@ -1,5 +1,4 @@
 import { selector } from "recoil";
-import storeService from "../../services/storeService";
 
 export const cartItemSelector = selector({
   key: "cartItemSelector",
