@@ -3,13 +3,19 @@ import storeService from "../../services/storeService";
 import { CartItem, UserDetailsPopup } from "../../components";
 import { Typography, Grid, Button } from "@mui/material";
 import { StyledPaper, StyledGridContainer } from "./Cart.style";
+import { useRecoilState } from "recoil";
+import { cartItemsState } from "../../Recoil";
 
-export const Cart = ({ cartItems, setCartItems }) => {
+export const Cart = () => {
+  const [cartItems, setCartItems] = useRecoilState(cartItemsState);
   const [openPopup, setOpenPopup] = useState(false);
   const [userDetails, setUserDetails] = useState({});
 
   const totalPrice = cartItems
-    .reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.price), 0)
+    .reduce(
+      (accumulator, currentValue) => accumulator + currentValue.quantity * parseFloat(currentValue.price),
+      0
+    )
     .toFixed(3);
 
   const onClickBuyHandler = () => {
