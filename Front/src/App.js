@@ -1,10 +1,10 @@
 import { muiTheme } from "./MuiTheme";
-import { Store, Cart } from "./pages";
 import { useEffect, useState } from "react";
+import { Store, Cart, Login } from "./pages";
 import { NavigationBar } from "./components";
-import { Box, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import storeService from "./services/storeService";
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
 
 export default function App() {
   const [items, setItems] = useState([]);
@@ -21,16 +21,24 @@ export default function App() {
     setCartItems(prev => [...prev, item]);
   };
 
+  const LayoutNavbar = () => (
+    <>
+      <NavigationBar />
+      <Outlet />
+    </>
+  );
+
   return (
     <Router>
       <ThemeProvider theme={muiTheme}>
-        <NavigationBar />
-        <Box sx={{ m: 3 }}>
-          <Routes>
+        <Routes>
+          <Route path="/" element={<LayoutNavbar />}>
             <Route path="/" element={<Store addItemToCart={addItemToCart} items={items} />} />
             <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
-          </Routes>
-        </Box>
+          </Route>
+          <Route path="/login" element={<Login />} />
+          {/* <Route path="/register" element={<Register />} /> */}
+        </Routes>
       </ThemeProvider>
     </Router>
   );

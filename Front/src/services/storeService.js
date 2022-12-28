@@ -1,6 +1,7 @@
 import axios from "axios";
 const { REACT_APP_SERVICE } = process.env;
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getItems: () => {
     return new Promise((resolve, reject) => {
