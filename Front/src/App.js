@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Store, Cart, Login } from "./pages";
+import { Store, Cart, Login, Register } from "./pages";
 import { NavigationBar } from "./components";
 import storeService from "./services/storeService";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
@@ -37,7 +37,7 @@ export default function App() {
           <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
         </Route>
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/register" element={<Register />} /> */}
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );
