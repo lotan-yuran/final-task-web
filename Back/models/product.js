@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const categorySchema = require("./category");
 
 const productScheme = new mongoose.Schema({
     name: {
@@ -20,9 +19,10 @@ const productScheme = new mongoose.Schema({
         require: false
     },
     category: {
-        type: [categorySchema],
-        require: true
-    },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'category',
+        require: true,
+      }
 });
 
 const Product = mongoose.model("product", productScheme, "product");

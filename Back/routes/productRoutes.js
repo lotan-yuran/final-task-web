@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Import the product model
-const Product = require('./models/product');
+const Product = require('../models/product');
 
 // Define the product routes
 router.get('/', async (req, res) => {
