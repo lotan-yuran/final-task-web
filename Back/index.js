@@ -30,7 +30,7 @@ mongoose
     console.log(err);
   });
 
-  app.use('/product',productRoutes);
+app.use('/product',productRoutes);
 
 app.get("/order", async (req, res) => {
   const orders = await Order.find().populate("products");
