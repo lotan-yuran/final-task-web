@@ -16,10 +16,10 @@ router.post("/", async (req, res) => {
     res.send("Created");
   });
 
-router.delete("/", async (req, res) => {
-    const { products, name, address, phone } = req.body;
-    await Order.create({ products, name, address, phone, orderedAt: new Date(), deletedAt: null });
-    res.send("Created");
+router.delete("/:orderId", async (req, res) => {
+    const { orderId } = req.params;
+    await Order.updateOne({ _id: orderId }, { deletedAt: Date.now() });
+    res.send("Deleted");
   });
 
 module.exports = router;
