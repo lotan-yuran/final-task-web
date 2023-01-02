@@ -3,13 +3,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-// // Models
-const Order = require("./models/order");
-
-// Import routes
-const productRoutes = require('./routes/productRoutes');
-// const orderRoutes = require('./orderRoutes');
-
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT;
@@ -30,17 +23,12 @@ mongoose
     console.log(err);
   });
 
+// Import routes
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+
 app.use('/product',productRoutes);
-
-app.get("/order", async (req, res) => {
-  const orders = await Order.find().populate("products");
-  res.send(orders);
-});
-
-app.post("/order", (req, res) => {
-  Order.create({ products: req.body.products, name: req.body.name, phone: req.body.phone });
-  res.send("Created");
-});
+app.use('/order',orderRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
