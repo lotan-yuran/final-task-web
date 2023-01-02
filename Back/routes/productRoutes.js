@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { name, price, description, imageURL, categoryId: category } = req.body;
-  await Product.create({ name, price, description, imageURL, category });
+  await Product.create({ name, price, description, imageURL, category, isActive: true });
   res.send('Created');
 });
 
@@ -22,6 +22,13 @@ router.get('/category/:categoryId', async (req, res) => {
   const products = await Product.find({ category: categoryId }).populate('category');
   res.send(products);
 });
+
+router.delete("/:productId", async (req, res) => {
+  const { productId } = req.params;
+  await Product.updateOne({ _id: productId }, { isActive: false });
+  res.send("Deleted");
+});
+
 
 module.exports = router;
 

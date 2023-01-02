@@ -22,7 +22,11 @@ const productScheme = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'category',
         require: true,
-      }
+    },
+    isActive: {
+        type: Boolean,
+        require: true
+    },
 });
 
 const Product = mongoose.model("product", productScheme, "product");
