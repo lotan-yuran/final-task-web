@@ -10,10 +10,9 @@ router.get("/", async (req, res) => {
     res.send(orders);
   });
   
-router.post("/", (req, res) => {
-    console.log("sdfds")
+router.post("/", async (req, res) => {
     const { products, name, address, phone } = req.body;
-    Order.create({ products, name, address, phone, createdAt: new Date() });
+    await Order.create({ products, name, address, phone, orderedAt: new Date(), deletedAt: null });
     res.send("Created");
   });
 

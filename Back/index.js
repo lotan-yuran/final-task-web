@@ -2,13 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
 const app = express();
 require("dotenv").config();
-const port = process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use(cors());
 
 // Connect to DB
@@ -26,14 +23,17 @@ mongoose
 // Import routes
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 
 app.use('/product',productRoutes);
 app.use('/order',orderRoutes);
+app.use('/category',categoryRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });

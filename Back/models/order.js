@@ -21,6 +21,10 @@ const orderScheme = new mongoose.Schema({
     orderedAt: {
         type: Date,
         require: true
+    },
+    deletedAt: {
+        type: Date,
+        require: true
     }
 });
 

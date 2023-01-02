@@ -11,9 +11,9 @@ router.get('/', async (req, res) => {
   res.send(products);
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { name, price, description, imageURL, categoryId: category } = req.body;
-  Product.create({ name, price, description, imageURL, category });
+  await Product.create({ name, price, description, imageURL, category });
   res.send('Created');
 });
 
