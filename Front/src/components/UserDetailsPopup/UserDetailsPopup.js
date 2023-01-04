@@ -22,8 +22,8 @@ export const UserDetailsPopup = ({ open, onOrder, handleClose, setUserDetails })
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>User Details</DialogTitle>
       <StyledList>
-        {textFields.map(({ field, type }) => (
-          <ListItem>
+        {textFields.map(({ field, type }, index) => (
+          <ListItem key={index}>
             <TextField type={type} label={field} variant="standard" onChange={e => handleChange(e, field)} />
           </ListItem>
         ))}
