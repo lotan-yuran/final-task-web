@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { emailRegex } from "../../constants";
 import { LockOutlined } from "@mui/icons-material";
 import { Grid, TextField, Link, Box, Typography } from "@mui/material";
 import { StyledAlert, StyledAvatar, StyledBoxRoot, StyledButtom } from "./Login.style";
@@ -28,18 +29,36 @@ const textFields = [
 export const Login = () => {
   const [error, setError] = useState(false);
 
+  const validateValues = data => {
+    if (!data["email"].match(emailRegex)) {
+      setError("Invalid email address!");
+      return false;
+    }
+
+    if (!data["password"].length) {
+      setError("Missing password!");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    const form = new FormData(e.currentTarget);
+    const data = {
+      email: form.get("email"),
+      password: form.get("password")
+    };
 
-    // TODO : log in
-    console.log({
-      email: data.get("email"),
-      password: data.get("password")
-    });
+    console.log(data);
 
-    // TODO : use error
-    setError(true);
+    if (validateValues(data)) {
+      // TODO:  register user
+
+      // TODO : use error
+      setError("A problem occurred in registration process! :(");
+    }
 
     setTimeout(() => {
       setError(false);
@@ -72,12 +91,12 @@ export const Login = () => {
         <Grid container>
           <Grid item>
             <Link href="/register" variant="body2">
-              Don't have an account? Sign Up
+              Don't have an account? Register
             </Link>
           </Grid>
         </Grid>
       </Box>
-      {error && <StyledAlert severity="error">A problem occurred in login process! :( </StyledAlert>}
+      {error && <StyledAlert severity="error">{error} </StyledAlert>}
     </StyledBoxRoot>
   );
 };

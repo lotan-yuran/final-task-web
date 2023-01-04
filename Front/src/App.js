@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { NavigationBar } from "./components";
-import { Store, Cart, Login } from "./pages";
+import { Store, Cart, Login, Register } from "./pages";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
 
 export default function App() {
@@ -21,7 +21,7 @@ export default function App() {
           <Route path="/cart" element={<Cart />} />
         </Route>
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/register" element={<Register />} /> */}
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );
