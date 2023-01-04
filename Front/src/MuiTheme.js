@@ -13,7 +13,8 @@ export const muiTheme = createTheme({
       main: "purple"
     },
     action: {
-      main: blue[50]
+      main: blue[50],
+      hover: grey[900]
     }
   }
 });
