@@ -1,10 +1,13 @@
+import { useRecoilValue } from "recoil";
+import { cartQuantityState } from "../../Recoil";
 import { Link, useLocation } from "react-router-dom";
 import { SearchTextField, StyledTypography } from "./NavigationBar.style";
 import { AdminPanelSettings, Search, ShoppingCart } from "@mui/icons-material";
-import { AppBar, IconButton, InputAdornment, TextField, Toolbar } from "@mui/material";
+import { AppBar, Badge, IconButton, InputAdornment, TextField, Toolbar } from "@mui/material";
 
 export const NavigationBar = () => {
   const location = useLocation();
+  const cartQuantity = useRecoilValue(cartQuantityState);
 
   return (
     <AppBar position="sticky">
@@ -30,9 +33,11 @@ export const NavigationBar = () => {
         )}
 
         <Link to={"/cart"}>
-          <IconButton color="action">
-            <ShoppingCart />
-          </IconButton>
+          <Badge badgeContent={cartQuantity} color="notification">
+            <IconButton color="action">
+              <ShoppingCart />
+            </IconButton>
+          </Badge>
         </Link>
         <Link to={"/admin"}>
           <IconButton color="action">

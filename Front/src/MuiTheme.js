@@ -9,6 +9,9 @@ export const muiTheme = createTheme({
     secondary: {
       main: "#9faec5"
     },
+    notification: {
+      main: "purple"
+    },
     action: {
       main: "#ffffff",
       hover: grey[900]
