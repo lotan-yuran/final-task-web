@@ -17,7 +17,6 @@ export const NavigationBar = () => {
           <SearchTextField
             size="small"
             variant="filled"
-            sx={{ padding: 0 }}
             // onChange={handleChange}
             InputProps={{
               disableUnderline: true,
