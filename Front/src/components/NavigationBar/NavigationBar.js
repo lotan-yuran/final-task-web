@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "@mui/icons-material";
-import { AppBar, IconButton, Toolbar } from "@mui/material";
+import { AppBar, Badge, IconButton, Toolbar } from "@mui/material";
 import { StyledTypography } from "./NavigationBar.style";
+import { cartQuantityState } from "../../Recoil/CartItems";
+import { useRecoilValue } from "recoil";
 
 export const NavigationBar = () => {
+  const cartQuantity = useRecoilValue(cartQuantityState);
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -11,9 +14,11 @@ export const NavigationBar = () => {
           Store
         </StyledTypography>
         <Link to={"/cart"}>
-          <IconButton color="action">
-            <ShoppingCart />
-          </IconButton>
+          <Badge badgeContent={cartQuantity} color="notification">
+            <IconButton color="action">
+              <ShoppingCart />
+            </IconButton>
+          </Badge>
         </Link>
       </Toolbar>
     </AppBar>

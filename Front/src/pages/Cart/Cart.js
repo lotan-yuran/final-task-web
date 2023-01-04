@@ -3,11 +3,12 @@ import storeService from "../../services/storeService";
 import { CartItem, UserDetailsPopup } from "../../components";
 import { Typography, Grid, Button } from "@mui/material";
 import { StyledPaper, StyledGridContainer } from "./Cart.style";
-import { useRecoilState } from "recoil";
-import { cartItemsState } from "../../Recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { cartItemsState, cartTotalPriceState } from "../../Recoil";
 
 export const Cart = () => {
   const [cartItems, setCartItems] = useRecoilState(cartItemsState);
+  // const [totalPrice] = useRecoilValue(cartTotalPriceState);
   const [openPopup, setOpenPopup] = useState(false);
   const [userDetails, setUserDetails] = useState({});
 
@@ -17,6 +18,31 @@ export const Cart = () => {
       0
     )
     .toFixed(3);
+
+  const handleIncrement = itemId => {
+    addQuantityToItem(itemId, 1);
+  };
+
+  const handleDecrement = itemId => {
+    addQuantityToItem(itemId, -1);
+  };
+
+  const handleDelete = itemId => {
+    setCartItems(prevCartItem => {
+      return prevCartItem.filter(item => item._id !== itemId);
+    });
+  };
+
+  const addQuantityToItem = (itemId, addedQuantity) => {
+    setCartItems(prevCartItem => {
+      return prevCartItem.map(item => {
+        if (item._id === itemId) {
+          return { ...item, quantity: item.quantity + addedQuantity };
+        }
+        return item;
+      });
+    });
+  };
 
   const onClickBuyHandler = () => {
     // Order is an array of cart items id's
@@ -44,13 +70,19 @@ export const Cart = () => {
     <>
       <StyledPaper>
         {cartItems.map((cartItem, index) => (
-          <CartItem key={index} cartItem={cartItem} />
+          <CartItem
+            key={index}
+            cartItem={cartItem}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+            handleDelete={handleDelete}
+          />
         ))}
         {totalPrice > 0 ? (
           <StyledGridContainer container spacing={2}>
             <Grid item xs={11}>
               <Typography variant="subtitle1" component="div">
-                TotalAmount: {totalPrice}$
+                TotalPrice: {totalPrice}$
               </Typography>
             </Grid>
             <Grid item xs={1}>
