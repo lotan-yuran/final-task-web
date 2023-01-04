@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { LockOutlined } from "@mui/icons-material";
+import { emailRegex, mobilePhoneRegex } from "../../constants";
 import { Grid, TextField, Link, Box, Typography } from "@mui/material";
 import { StyledAlert, StyledAvatar, StyledBoxRoot, StyledButtom } from "./Register.style";
 
@@ -27,7 +28,7 @@ const textFields = [
     required: true,
     fullWidth: true,
     name: "phone",
-    label: "phone",
+    label: "Mobile Phone",
     type: "phone",
     id: "phone"
   },
@@ -53,21 +54,49 @@ const textFields = [
 export const Register = () => {
   const [error, setError] = useState(false);
 
+  const validateValues = data => {
+    if (!data["firstName"].length || !data["lastName"].length) {
+      setError("Missing name information!");
+      return false;
+    }
+
+    if (!data["phone"].match(mobilePhoneRegex)) {
+      setError("Invalid phone number!");
+      return false;
+    }
+
+    if (!data["email"].match(emailRegex)) {
+      setError("Invalid email address!");
+      return false;
+    }
+
+    if (!data["password"].length) {
+      setError("Missing password!");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    const form = new FormData(e.currentTarget);
+    const data = {
+      phone: form.get("phone"),
+      email: form.get("email"),
+      password: form.get("password"),
+      lastName: form.get("lastName"),
+      firstName: form.get("firstName")
+    };
 
-    // TODO : register
-    console.log({
-      phone: data.get("phone"),
-      email: data.get("email"),
-      password: data.get("password"),
-      lastName: data.get("lastName"),
-      firstName: data.get("firstName")
-    });
+    console.log(data);
 
-    // TODO : use error
-    setError(true);
+    if (validateValues(data)) {
+      // TODO:  register user
+
+      // TODO : use error
+      setError("A problem occurred in registration process! :(");
+    }
 
     setTimeout(() => {
       setError(false);
@@ -121,7 +150,7 @@ export const Register = () => {
           </Grid>
         </Grid>
       </Box>
-      {error && <StyledAlert severity="error">A problem occurred in registration process! :( </StyledAlert>}
+      {error && <StyledAlert severity="error">{error} </StyledAlert>}
     </StyledBoxRoot>
   );
 };
