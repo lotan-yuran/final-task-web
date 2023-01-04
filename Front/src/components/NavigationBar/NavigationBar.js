@@ -33,11 +33,11 @@ export const NavigationBar = () => {
         )}
 
         <Link to={"/cart"}>
-          <Badge badgeContent={cartQuantity} color="notification">
-            <IconButton color="action">
+          <IconButton color="action">
+            <Badge badgeContent={cartQuantity} color="notification">
               <ShoppingCart />
-            </IconButton>
-          </Badge>
+            </Badge>
+          </IconButton>
         </Link>
         <Link to={"/admin"}>
           <IconButton color="action">
