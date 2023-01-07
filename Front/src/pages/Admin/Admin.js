@@ -4,33 +4,45 @@ import { useRecoilState } from "recoil";
 import { itemsState } from "../../Recoil";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, List, Paper, Typography } from "@mui/material";
-import { DeleteConfirmPopup, ListItemAdmin } from "../../components";
+import { DeleteConfirmPopup, ListItemAdmin, EditItemPopup } from "../../components";
 
 export const Admin = () => {
-  const [checked, setChecked] = useState([]);
   const [items, setItems] = useRecoilState(itemsState);
+  const [checkedIds, setCheckedIds] = useState([]);
+  const [editedItem, setEditedItem] = useState();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
+  const [openEditPopup, setOpenEditPopup] = useState(false);
 
   const isChecked = id => {
-    return checked.includes(id) ? true : false;
+    return checkedIds.includes(id) ? true : false;
   };
 
-  const handleCheck = event => {
-    var updatedList = [...checked];
-    if (event.target.checked) {
-      updatedList = [...checked, event.target.value];
+  const handleClickCheckItem = ItemId => {
+    const currentIndex = checkedIds.indexOf(ItemId);
+    const newCheckedIds = [...checkedIds];
+
+    if (currentIndex === -1) {
+      newCheckedIds.push(ItemId);
     } else {
-      updatedList.splice(checked.indexOf(event.target.value), 1);
+      newCheckedIds.splice(currentIndex, 1);
     }
-    setChecked(updatedList);
+
+    setCheckedIds(newCheckedIds);
   };
 
-  const handleDeleteItems = () => {
-    if (checked.length === 0) {
+  const handleClickEditItem = itemId => {
+    const item = items.find(item => item._id === itemId);
+    setEditedItem(item);
+    setOpenEditPopup(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (checkedIds.length === 0) {
       // TODO: message to client
     } else {
-      const itemIdsToDelete = new Set(checked);
+      const itemIdsToDelete = new Set(checkedIds);
       // TODO: Need to delete from db!
+      // Delete items that has been checked
       setItems(prevItems => {
         return prevItems.filter(item => {
           // return those items that their id not in the itemIdsToDelete
@@ -38,8 +50,16 @@ export const Admin = () => {
         });
       });
     }
-    setChecked([]);
+    setCheckedIds([]);
     setOpenDeletePopup(false);
+  };
+
+  const handleEditConfirm = () => {
+    // TODO: Need to edit on db!
+    setItems(prevItems => {
+      return prevItems.map(item => (item._id === editedItem._id ? editedItem : item));
+    });
+    setOpenEditPopup(false);
   };
 
   return (
@@ -68,16 +88,31 @@ export const Admin = () => {
         </Box>
         <List dense sx={{ width: "100%", maxWidth: 700, bgcolor: "background.paper" }}>
           {items.map((item, index) => {
-            return <ListItemAdmin key={index} item={item} handleCheck={handleCheck} isChecked={isChecked} />;
+            return (
+              <ListItemAdmin
+                key={index}
+                item={item}
+                handleEditItem={handleClickEditItem}
+                handleCheck={handleClickCheckItem}
+                isChecked={isChecked}
+              />
+            );
           })}
         </List>
       </Paper>
       <DeleteConfirmPopup
         open={openDeletePopup}
         handleCancel={() => setOpenDeletePopup(false)}
-        handleDelete={handleDeleteItems}
+        handleConfirm={handleDeleteConfirm}
         text={`Are you sure you want to delete the following items?`}
-        checked={checked}
+        checked={checkedIds}
+      />
+      <EditItemPopup
+        open={openEditPopup}
+        handleCancel={() => setOpenEditPopup(false)}
+        handleConfirm={handleEditConfirm}
+        editedItem={editedItem}
+        setEditedItem={setEditedItem}
       />
     </>
   );
