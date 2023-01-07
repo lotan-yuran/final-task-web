@@ -10,7 +10,7 @@ import {
   ListItemText
 } from "@mui/material";
 
-export const DeleteConfirmPopup = ({ open, handleCancel, handleDelete, checked }) => {
+export const DeleteConfirmPopup = ({ open, handleCancel, handleConfirm, checked }) => {
   return (
     <Dialog
       open={open}
@@ -33,7 +33,7 @@ export const DeleteConfirmPopup = ({ open, handleCancel, handleDelete, checked }
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleDelete} color="error" autoFocus>
+        <Button onClick={handleConfirm} color="error" autoFocus>
           Yes - Delete
         </Button>
       </DialogActions>
