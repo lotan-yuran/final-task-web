@@ -1,23 +1,52 @@
 import { useState } from "react";
 import storeService from "../../services/storeService";
 import { CartItem, UserDetailsPopup } from "../../components";
-import { Paper, Typography, Grid, Button } from "@mui/material";
+import { Typography, Grid, Button } from "@mui/material";
+import { StyledPaper, StyledGridContainer } from "./Cart.style";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { cartItemsState, cartTotalPriceState } from "../../Recoil";
 
-export const Cart = ({ cartItems, setCartItems }) => {
+export const Cart = () => {
+  const [cartItems, setCartItems] = useRecoilState(cartItemsState);
+  // const [totalPrice] = useRecoilValue(cartTotalPriceState);
   const [openPopup, setOpenPopup] = useState(false);
   const [userDetails, setUserDetails] = useState({});
 
   const totalPrice = cartItems
     .reduce(
-      (accumulator, currentValue) =>
-        accumulator + parseFloat(currentValue.price),
+      (accumulator, currentValue) => accumulator + currentValue.quantity * parseFloat(currentValue.price),
       0
     )
     .toFixed(3);
 
+  const handleIncrement = itemId => {
+    addQuantityToItem(itemId, 1);
+  };
+
+  const handleDecrement = itemId => {
+    addQuantityToItem(itemId, -1);
+  };
+
+  const handleDelete = itemId => {
+    setCartItems(prevCartItem => {
+      return prevCartItem.filter(item => item._id !== itemId);
+    });
+  };
+
+  const addQuantityToItem = (itemId, addedQuantity) => {
+    setCartItems(prevCartItem => {
+      return prevCartItem.map(item => {
+        if (item._id === itemId) {
+          return { ...item, quantity: item.quantity + addedQuantity };
+        }
+        return item;
+      });
+    });
+  };
+
   const onClickBuyHandler = () => {
     // Order is an array of cart items id's
-    const products = cartItems.map((cartItem) => cartItem._id);
+    const products = cartItems.map(cartItem => cartItem._id);
 
     storeService
       .addOrder({ products, ...userDetails })
@@ -25,7 +54,7 @@ export const Cart = ({ cartItems, setCartItems }) => {
         alert("The order has been successfully added to DB");
         setCartItems([]);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
         alert("The order failed");
       })
@@ -39,40 +68,35 @@ export const Cart = ({ cartItems, setCartItems }) => {
 
   return (
     <>
-      <Paper
-        sx={{
-          p: 2,
-          margin: "auto",
-          maxWidth: 1200,
-          flexGrow: 1,
-        }}
-      >
+      <StyledPaper>
         {cartItems.map((cartItem, index) => (
-          <CartItem key={index} cartItem={cartItem} />
+          <CartItem
+            key={index}
+            cartItem={cartItem}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+            handleDelete={handleDelete}
+          />
         ))}
         {totalPrice > 0 ? (
-          <Grid container spacing={2} sx={{ my: 2 }}>
+          <StyledGridContainer container spacing={2}>
             <Grid item xs={11}>
               <Typography variant="subtitle1" component="div">
-                TotalAmount: {totalPrice}$
+                TotalPrice: {totalPrice}$
               </Typography>
             </Grid>
             <Grid item xs={1}>
-              <Button
-                variant="contained"
-                size="medium"
-                onClick={() => setOpenPopup(true)}
-              >
+              <Button variant="contained" size="medium" onClick={() => setOpenPopup(true)}>
                 Buy
               </Button>
             </Grid>
-          </Grid>
+          </StyledGridContainer>
         ) : (
           <Typography variant="subtitle1" component="div">
             Your cart is empty
           </Typography>
         )}
-      </Paper>
+      </StyledPaper>
       {openPopup && (
         <UserDetailsPopup
           open={openPopup}

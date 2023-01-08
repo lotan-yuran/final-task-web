@@ -1,45 +1,30 @@
-import {
-  List,
-  Button,
-  Dialog,
-  ListItem,
-  TextField,
-  DialogTitle,
-} from "@mui/material";
+import { Button, Dialog, ListItem, TextField, DialogTitle } from "@mui/material";
+
+import { StyledList } from "./UserDetailsPopup.style";
 
 const textFields = [
   {
-    field: "name",
+    field: "name"
   },
   {
     field: "phone",
-    type: "number",
-  },
+    type: "number"
+  }
 ];
 
-export const UserDetailsPopup = ({
-  open,
-  onOrder,
-  handleClose,
-  setUserDetails,
-}) => {
+export const UserDetailsPopup = ({ open, onOrder, handleClose, setUserDetails }) => {
   const handleChange = (e, field) => {
     const val = e.target.value;
-    setUserDetails((prev) => ({ ...prev, [field]: val }));
+    setUserDetails(prev => ({ ...prev, [field]: val }));
   };
 
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>User Details</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {textFields.map(({ field, type }) => (
-          <ListItem>
-            <TextField
-              type={type}
-              label={field}
-              variant="standard"
-              onChange={(e) => handleChange(e, field)}
-            />
+      <StyledList>
+        {textFields.map(({ field, type }, index) => (
+          <ListItem key={index}>
+            <TextField type={type} label={field} variant="standard" onChange={e => handleChange(e, field)} />
           </ListItem>
         ))}
         <ListItem>
@@ -47,7 +32,7 @@ export const UserDetailsPopup = ({
             Finish Order
           </Button>
         </ListItem>
-      </List>
+      </StyledList>
     </Dialog>
   );
 };

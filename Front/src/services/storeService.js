@@ -7,16 +7,16 @@ export default {
       axios
         .get(`${REACT_APP_SERVICE}/product`)
         .then(({ data }) => resolve(data))
-        .catch((err) => reject(err));
+        .catch(err => reject(err));
     });
   },
 
-  addOrder: (order) => {
+  addOrder: order => {
     return new Promise((resolve, reject) => {
       axios
         .post(`${REACT_APP_SERVICE}/order`, order)
         .then(({ data }) => resolve(data))
-        .catch((err) => reject(err));
+        .catch(err => reject(err));
     });
-  },
+  }
 };
