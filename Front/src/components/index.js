@@ -7,3 +7,4 @@ export * from "./QuantityButton";
 export * from "./DeleteConfirmPopup";
 export * from "./ListItemAdmin";
 export * from "./EditItemPopup";
+export * from "./AddItemPopup";

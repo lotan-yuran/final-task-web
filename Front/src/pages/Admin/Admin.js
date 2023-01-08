@@ -1,17 +1,22 @@
 import { useState } from "react";
 import { Box } from "@mui/system";
-import { useRecoilState } from "recoil";
-import { itemsState } from "../../Recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useResetRecoilState } from "recoil";
+import { itemsState, itemsSelector } from "../../Recoil";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, List, Paper, Typography } from "@mui/material";
-import { DeleteConfirmPopup, ListItemAdmin, EditItemPopup } from "../../components";
+import { DeleteConfirmPopup, ListItemAdmin, EditItemPopup, AddItemPopup } from "../../components";
+import storeService from "../../services/storeService";
 
 export const Admin = () => {
   const [items, setItems] = useRecoilState(itemsState);
+  const resetItems = useResetRecoilState(itemsState);
+  // const refresh = useRecoilRefresher_UNSTABLE(itemsState);
+
   const [checkedIds, setCheckedIds] = useState([]);
   const [editedItem, setEditedItem] = useState();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [openEditPopup, setOpenEditPopup] = useState(false);
+  const [openAddPopup, setOpenAddPopup] = useState(false);
 
   const isChecked = id => {
     return checkedIds.includes(id) ? true : false;
@@ -62,6 +67,20 @@ export const Admin = () => {
     setOpenEditPopup(false);
   };
 
+  const handleAddConfirm = item => {
+    // TODO: need to refresh items state after add request ends
+    storeService
+      .addProduct(item)
+      .then(response => {
+        alert("The product has been successfully added to DB");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Add product failed");
+      })
+      .finally(setOpenAddPopup(false));
+  };
+
   return (
     <>
       <Paper elevation={2} sx={{ width: "100%", maxWidth: 700, p: 2 }}>
@@ -72,7 +91,14 @@ export const Admin = () => {
             </Typography>
           </Box>
           <Box>
-            <Button variant="contained" size="small" color="success" startIcon={<DeleteIcon />} sx={{ m: 1 }}>
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              onClick={() => setOpenAddPopup(true)}
+              startIcon={<DeleteIcon />}
+              sx={{ m: 1 }}
+            >
               Add Item
             </Button>
             <Button
@@ -113,6 +139,11 @@ export const Admin = () => {
         handleConfirm={handleEditConfirm}
         editedItem={editedItem}
         setEditedItem={setEditedItem}
+      />
+      <AddItemPopup
+        open={openAddPopup}
+        handleCancel={() => setOpenAddPopup(false)}
+        handleConfirm={handleAddConfirm}
       />
     </>
   );

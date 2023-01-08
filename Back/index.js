@@ -44,7 +44,11 @@ app.post("/product", (req, res) => {
 });
 
 app.post("/order", (req, res) => {
-  Order.create({ products: req.body.products, name: req.body.name, phone: req.body.phone });
+  Order.create({
+    products: req.body.products,
+    name: req.body.name,
+    phone: req.body.phone,
+  });
   res.send("Created");
 });
 
