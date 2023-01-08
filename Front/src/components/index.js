@@ -8,3 +8,5 @@ export * from "./DeleteConfirmPopup";
 export * from "./ListItemAdmin";
 export * from "./EditItemPopup";
 export * from "./AddItemPopup";
+export * from "./OrdersChart";
+export * from "./ManageItems";

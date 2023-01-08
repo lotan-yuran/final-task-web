@@ -1,25 +1,14 @@
 import { useState } from "react";
-import { Box } from "@mui/system";
-import { useRecoilRefresher_UNSTABLE, useRecoilState, useResetRecoilState } from "recoil";
-import { itemsState, itemsSelector } from "../../Recoil";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, Grid, List, Paper, Typography } from "@mui/material";
-import {
-  ManageItems,
-  DeleteConfirmPopup,
-  ListItemAdmin,
-  EditItemPopup,
-  AddItemPopup,
-  OrdersLineChart,
-  OrdersBarChart
-} from "../../components";
+import { useRecoilState } from "recoil";
+import { itemsState } from "../../Recoil";
+import { List } from "@mui/material";
+import { DeleteConfirmPopup, EditItemPopup, AddItemPopup } from "../../components";
+import { ManageHeader } from "./ManageHeader";
+import { ManageListItem } from "./ManageListItem";
 import storeService from "../../services/storeService";
 
-export const Admin = () => {
+export const ManageItems = ({ title }) => {
   const [items, setItems] = useRecoilState(itemsState);
-  const resetItems = useResetRecoilState(itemsState);
-  // const refresh = useRecoilRefresher_UNSTABLE(itemsState);
-
   const [checkedIds, setCheckedIds] = useState([]);
   const [editedItem, setEditedItem] = useState();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
@@ -88,22 +77,41 @@ export const Admin = () => {
       })
       .finally(setOpenAddPopup(false));
   };
-
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Paper elevation={2} sx={{ p: 2 }}>
-            <ManageItems title={"Items"} />
-          </Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper elevation={2} sx={{ p: 2 }}>
-            <OrdersLineChart />
-            <OrdersBarChart />
-          </Paper>
-        </Grid>
-      </Grid>
+      <ManageHeader title={title} setOpenAddPopup={setOpenAddPopup} setOpenDeletePopup={setOpenDeletePopup} />
+      <List dense sx={{ bgcolor: "background.paper" }}>
+        {items.map((item, index) => {
+          return (
+            <ManageListItem
+              key={index}
+              item={item}
+              handleEditItem={handleClickEditItem}
+              handleCheck={handleClickCheckItem}
+              isChecked={isChecked}
+            />
+          );
+        })}
+      </List>
+      <DeleteConfirmPopup
+        open={openDeletePopup}
+        handleCancel={() => setOpenDeletePopup(false)}
+        handleConfirm={handleDeleteConfirm}
+        text={`Are you sure you want to delete the following items?`}
+        checked={checkedIds}
+      />
+      <EditItemPopup
+        open={openEditPopup}
+        handleCancel={() => setOpenEditPopup(false)}
+        handleConfirm={handleEditConfirm}
+        editedItem={editedItem}
+        setEditedItem={setEditedItem}
+      />
+      <AddItemPopup
+        open={openAddPopup}
+        handleCancel={() => setOpenAddPopup(false)}
+        handleConfirm={handleAddConfirm}
+      />
     </>
   );
 };
