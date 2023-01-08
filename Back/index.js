@@ -21,13 +21,13 @@ mongoose
   });
 
 // Import routes
-const productRoutes = require('./routes/productRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const categoryRoutes = require('./routes/categoryRoutes');
+const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
-app.use('/product',productRoutes);
-app.use('/order',orderRoutes);
-app.use('/category',categoryRoutes);
+app.use("/product", productRoutes);
+app.use("/order", orderRoutes);
+app.use("/category", categoryRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
