@@ -17,8 +17,8 @@ router.get('/', async (req, res) => {
 // Add product
 router.post('/', async (req, res) => {
   const { name, price, description, imageURL, categoryId: category } = req.body;
-  await Product.create({ name, price, description, imageURL, category, isActive: true });
-  res.send('Created');
+  const product = await Product.create({ name, price, description, imageURL, category, isActive: true });
+  res.send(product);
 });
 
 // Get the active products by categoryId
