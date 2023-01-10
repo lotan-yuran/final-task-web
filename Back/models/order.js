@@ -6,23 +6,11 @@ const orderScheme = new mongoose.Schema({
         type: [productQuantitySchema],
         require: true
     },
-    name: {
-        type: String,
-        require: true
-    },
-    address: {
-        type: String,
-        require: true
-    },
-    phone: {
+    userId: {
         type: String,
         require: true
     },
     orderedAt: {
-        type: Date,
-        require: true
-    },
-    deletedAt: {
         type: Date,
         require: true
     }
