@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
-const productQuantitySchema = require("./productQuantity");
 
 const orderScheme = new mongoose.Schema({
-    products: {
-        type: [productQuantitySchema],
-        require: true
-    },
+    products: [],
     userId: {
         type: String,
         require: true
@@ -29,11 +25,5 @@ const orderScheme = new mongoose.Schema({
 });
 
 const Order = mongoose.model("order", orderScheme, "order");
-
-Order.schema.pre('save', function(next) {
-    Object.freeze(this.products);
-    next();
-});
-
 module.exports = Order;
 

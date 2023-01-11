@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Models
 const Order = require('../models/order');
+const Product = require('../models/product');
 
 // Routes
 
@@ -13,10 +14,17 @@ router.get("/:userId", async (req, res) => {
     res.send(orders);
   });
   
-// Add product
+// Add order
 router.post("/", async (req, res) => {
     const { products, userId, name, address, phone } = req.body;
-    await Order.create({ products, userId, name, address, phone, orderedAt: new Date() });
+
+    const productsPromise = products.map(async p => {
+      const a = Product.findById(p.product);
+      return {...p, product: a}
+    });
+    
+    const updatedProducts = await Promise.all(productsPromise)
+    await Order.create({ products: updatedProducts, userId, name, address, phone, orderedAt: new Date() });
     res.send("Created");
   });
 
