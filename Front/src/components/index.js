@@ -1,4 +1,5 @@
 export * from "./Item";
+export * from "./Filters";
 export * from "./CartItem";
 export * from "./OrdersChart";
 export * from "./ManageItems";
