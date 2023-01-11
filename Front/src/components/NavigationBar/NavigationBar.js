@@ -1,14 +1,14 @@
 import { useRecoilValue } from "recoil";
 import { cartQuantityState } from "../../Recoil";
 import { Link, useLocation } from "react-router-dom";
-import { SearchTextField, StyledTypography } from "./NavigationBar.style";
-import { AdminPanelSettings, Search, ShoppingCart } from "@mui/icons-material";
-import { AppBar, Badge, IconButton, InputAdornment, TextField, Toolbar } from "@mui/material";
+import { SearchTextField } from "../SearchTextField";
+import { StyledTypography } from "./NavigationBar.style";
+import { AppBar, Badge, IconButton, Toolbar } from "@mui/material";
+import { AdminPanelSettings, ShoppingCart } from "@mui/icons-material";
 
-export const NavigationBar = () => {
+export const NavigationBar = ({ onSearch }) => {
   const location = useLocation();
   const cartQuantity = useRecoilValue(cartQuantityState);
-
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -16,21 +16,7 @@ export const NavigationBar = () => {
           Store
         </StyledTypography>
 
-        {location.pathname === "/" && (
-          <SearchTextField
-            size="small"
-            variant="filled"
-            // onChange={handleChange}
-            InputProps={{
-              disableUnderline: true,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Search />
-                </InputAdornment>
-              )
-            }}
-          />
-        )}
+        {location.pathname === "/" && <SearchTextField onSearch={onSearch} />}
 
         <Link to={"/cart"}>
           <IconButton color="action">

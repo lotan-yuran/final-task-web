@@ -1,5 +1,5 @@
+import { grey } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
-import { blue, grey } from "@mui/material/colors";
 
 export const muiTheme = createTheme({
   palette: {
@@ -14,7 +14,6 @@ export const muiTheme = createTheme({
     },
     action: {
       main: "#ffffff"
-      // hover: grey[900]
     }
   }
 });
