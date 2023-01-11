@@ -13,8 +13,8 @@ export const muiTheme = createTheme({
       main: "#d53ed5"
     },
     action: {
-      main: "#ffffff",
-      hover: grey[900]
+      main: "#ffffff"
+      // hover: grey[900]
     }
   }
 });

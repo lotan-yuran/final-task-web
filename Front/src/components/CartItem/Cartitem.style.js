@@ -1,6 +1,5 @@
 import { styled } from "@mui/system";
-import { CardMedia, Button } from "@mui/material";
-import { purple } from "@mui/material/colors";
+import { CardMedia } from "@mui/material";
 
 export const StyledCardMedia = styled(CardMedia)({
   width: 151

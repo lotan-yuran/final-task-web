@@ -11,6 +11,15 @@ export default {
     });
   },
 
+  addProduct: product => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`${REACT_APP_SERVICE}/product`, product)
+        .then(({ data }) => resolve(data))
+        .catch(err => reject(err));
+    });
+  },
+
   addOrder: order => {
     return new Promise((resolve, reject) => {
       axios
