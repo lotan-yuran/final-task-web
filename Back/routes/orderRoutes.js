@@ -6,16 +6,17 @@ const Order = require('../models/order');
 
 // Routes
 
-// Get all the not deleted products
-router.get("/", async (req, res) => {
-    const orders = await Order.find({ deletedAt: { $ne: null } }).populate("products");
+// Get all the orders of user
+router.get("/:userId", async (req, res) => {
+    const { userId } = req.params;
+    const orders = await Order.find({ userId });
     res.send(orders);
   });
   
 // Add product
 router.post("/", async (req, res) => {
-    const { products, userId } = req.body;
-    await Order.create({ products, userId, orderedAt: new Date() });
+    const { products, userId, name, address, phone } = req.body;
+    await Order.create({ products, userId, name, address, phone, orderedAt: new Date() });
     res.send("Created");
   });
 

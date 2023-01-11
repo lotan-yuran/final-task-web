@@ -10,6 +10,18 @@ const orderScheme = new mongoose.Schema({
         type: String,
         require: true
     },
+    name: {
+        type: String,
+        require: true
+    },
+    address: {
+        type: String,
+        require: true
+    },
+    phone: {
+        type: String,
+        require: true
+    },
     orderedAt: {
         type: Date,
         require: true
@@ -17,5 +29,11 @@ const orderScheme = new mongoose.Schema({
 });
 
 const Order = mongoose.model("order", orderScheme, "order");
+
+Order.schema.pre('save', function(next) {
+    Object.freeze(this.products);
+    next();
+});
+
 module.exports = Order;
 
