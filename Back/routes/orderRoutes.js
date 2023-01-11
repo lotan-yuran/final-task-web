@@ -14,15 +14,15 @@ router.get("/", async (req, res) => {
   
 // Add product
 router.post("/", async (req, res) => {
-    const { products, name, address, phone } = req.body;
-    await Order.create({ products, name, address, phone, orderedAt: new Date(), deletedAt: null });
+    const { products, userId } = req.body;
+    await Order.create({ products, userId, orderedAt: new Date() });
     res.send("Created");
   });
 
 // Delete order by orderId (set deletedAt to current date)
 router.delete("/:orderId", async (req, res) => {
     const { orderId } = req.params;
-    await Order.updateOne({ _id: orderId }, { deletedAt: Date.now() });
+    await Order.deleteOne({ _id: orderId });
     res.send("Deleted");
   });
 

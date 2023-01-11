@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const productQuantitySchema = require("./productQuantity");
 
-const orderScheme = new mongoose.Schema({
+const cartScheme = new mongoose.Schema({
     products: {
         type: [productQuantitySchema],
         require: true
@@ -9,13 +9,9 @@ const orderScheme = new mongoose.Schema({
     userId: {
         type: String,
         require: true
-    },
-    orderedAt: {
-        type: Date,
-        require: true
     }
 });
 
-const Order = mongoose.model("order", orderScheme, "order");
-module.exports = Order;
+const Cart = mongoose.model("cart", cartScheme, "cart");
+module.exports = Cart;
 
