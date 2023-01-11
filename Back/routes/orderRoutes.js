@@ -7,6 +7,30 @@ const Product = require('../models/product');
 
 // Routes
 
+
+
+router.get('/count-by-user', async (req, res) => {
+  try {
+    const ordersByUser = await Order.aggregate([
+      {
+        $group: {
+          _id: "$userId",
+          numOfOrders: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          userId: "$_id",
+          numOfOrders: 1
+        }
+      }
+    ]);
+    res.json(ordersByUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 // Get all the orders of user
 router.get("/:userId", async (req, res) => {
   try {
