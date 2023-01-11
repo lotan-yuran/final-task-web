@@ -21,6 +21,18 @@ router.post('/', async (req, res) => {
   res.send(product);
 });
 
+// Update product
+router.put("/:productId", async (req, res) => {
+  const { productId } = req.params;
+  const { name, price, description, imageURL, categoryId: category } = req.body;
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate({ _id: productId }, { name, price, description, imageURL, category }, { new: true });
+    res.json(updatedProduct);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Get the active products by categoryId
 router.get('/category/:categoryId', async (req, res) => {
   const { categoryId } = req.params;
