@@ -1,11 +1,12 @@
-import { useMemo } from "react";
 import { Grid } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { itemsState } from "../../Recoil";
-import { Item, ScrollTopButton } from "../../components";
+import { useMemo, useState } from "react";
+import { Filters, Item, ScrollTopButton } from "../../components";
 
 export const Store = ({ searchText }) => {
   const [items] = useRecoilState(itemsState);
+  const [priceRangeValue, setPriceRangeValue] = useState([20, 50]);
 
   const filteredItems = useMemo(
     () =>
@@ -19,6 +20,9 @@ export const Store = ({ searchText }) => {
 
   return (
     <>
+      <div>
+        <Filters priceRangeValue={priceRangeValue} setPriceRangeValue={setPriceRangeValue} />
+      </div>
       <Grid container spacing={4} justify="center">
         {filteredItems?.map(item => (
           <Grid key={item._id} item xs={12} sm={6} md={3}>
