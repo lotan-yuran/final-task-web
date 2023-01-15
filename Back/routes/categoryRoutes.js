@@ -8,15 +8,24 @@ const Category = require('../models/category');
 
 // Get all categories
 router.get("/", async (req, res) => {
-    const categories = await Category.find();
-    res.send(categories);
+  try {
+      const categories = await Category.find();
+      res.send(categories);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+
   });
   
 // Add category
 router.post("/", async (req, res) => {
-    const { name } = req.body;
-    await Category.create({ name });
-    res.send("Created");
+  try {
+      const { name } = req.body;
+      await Category.create({ name });
+      res.send("Created");
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
   });
 
 module.exports = router;
