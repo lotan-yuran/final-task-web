@@ -3,6 +3,7 @@ import { LockOutlined } from "@mui/icons-material";
 import { emailRegex, mobilePhoneRegex } from "../../constants";
 import { Grid, TextField, Link, Box, Typography } from "@mui/material";
 import { StyledAlert, StyledAvatar, StyledBoxRoot, StyledButtom } from "./Register.style";
+import firebaseService from "../../services/firebaseService";
 
 const nameTextFields = [
   {
@@ -78,7 +79,7 @@ export const Register = () => {
     return true;
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const data = {
@@ -92,10 +93,23 @@ export const Register = () => {
     console.log(data);
 
     if (validateValues(data)) {
-      // TODO:  register user
-
-      // TODO : use error
-      setError("A problem occurred in registration process! :(");
+      try {
+        const registeredUser = await firebaseService.registerUser(data.email, data.password);
+        console.log("registeredUser");
+        console.log(registeredUser);
+      } catch (error) {
+        switch (error.response.data.error.message) {
+          case "EMAIL_EXISTS":
+            setError("Email is already exist!");
+            break;
+          case "WEAK_PASSWORD : Password should be at least 6 characters":
+            setError("Weak password! Password should be at least 6 characters");
+            break;
+          default:
+            setError("A problem occurred in registration process! :(");
+            break;
+        }
+      }
     }
 
     setTimeout(() => {
