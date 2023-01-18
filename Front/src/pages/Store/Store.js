@@ -6,9 +6,9 @@ import { Filters, Item, ScrollTopButton } from "../../components";
 
 export const Store = ({ searchText }) => {
   const [items] = useRecoilState(itemsState);
-  const [priceRangeValue, setPriceRangeValue] = useState([20, 50]);
+  const [priceRangeValue, setPriceRangeValue] = useState([0, 10000]);
 
-  const filteredItems = useMemo(
+  const filteredItemsByText = useMemo(
     () =>
       searchText.length
         ? items.filter(
@@ -16,6 +16,11 @@ export const Store = ({ searchText }) => {
           )
         : items,
     [searchText, items]
+  );
+
+  const filteredItems = useMemo(
+    () => filteredItemsByText.filter(({ price }) => price > priceRangeValue[0] && price < priceRangeValue[1]),
+    [filteredItemsByText, priceRangeValue]
   );
 
   return (
