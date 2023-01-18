@@ -25,11 +25,13 @@ const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const scrapingRoutes = require("./routes/scrapingRoutes");
 
 app.use("/product", productRoutes);
 app.use("/order", orderRoutes);
 app.use("/category", categoryRoutes);
 app.use("/cart", cartRoutes);
+app.use("/scraping", scrapingRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
