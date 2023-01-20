@@ -1,4 +1,4 @@
-import { CartesianGrid, Legend, Tooltip, XAxis, YAxis, ResponsiveContainer, BarChart, Bar } from "recharts";
+import { CartesianGrid, Legend, Tooltip, XAxis, YAxis, BarChart, Bar } from "recharts";
 
 export const OrdersBarChart = () => {
   const data = [

@@ -1,4 +1,4 @@
-import { grey } from "@mui/material/colors";
+import { grey, amber } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 export const muiTheme = createTheme({
@@ -15,6 +15,9 @@ export const muiTheme = createTheme({
     action: {
       main: "#ffffff",
       hover: grey[900]
+    },
+    itemlist: {
+      main: amber[50]
     }
   }
 });
