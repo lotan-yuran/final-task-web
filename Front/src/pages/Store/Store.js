@@ -7,6 +7,7 @@ import { Filters, Item, ScrollTopButton } from "../../components";
 export const Store = ({ searchText }) => {
   const [items] = useRecoilState(itemsState);
   const [priceRangeValue, setPriceRangeValue] = useState([0, 10000]);
+  const [categoryFilters, setCategoryFilters] = useState({});
 
   const filteredItemsByText = useMemo(
     () =>
@@ -23,10 +24,17 @@ export const Store = ({ searchText }) => {
     [filteredItemsByText, priceRangeValue]
   );
 
+  console.log(categoryFilters);
+
   return (
     <>
       <div>
-        <Filters priceRangeValue={priceRangeValue} setPriceRangeValue={setPriceRangeValue} />
+        <Filters
+          priceRangeValue={priceRangeValue}
+          setPriceRangeValue={setPriceRangeValue}
+          categoryFilters={categoryFilters}
+          setCategoryFilters={setCategoryFilters}
+        />
       </div>
       <Grid container spacing={4} justify="center">
         {filteredItems?.map(item => (
