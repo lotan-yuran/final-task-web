@@ -20,6 +20,24 @@ export default {
     });
   },
 
+  deleteProduct: productId => {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`${REACT_APP_SERVICE}/product/${productId}`)
+        .then(({ data }) => resolve(data))
+        .catch(err => reject(err));
+    });
+  },
+
+  editProduct: product => {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`${REACT_APP_SERVICE}/product/${product._id}`, product)
+        .then(({ data }) => resolve(data))
+        .catch(err => reject(err));
+    });
+  },
+
   addOrder: order => {
     return new Promise((resolve, reject) => {
       axios

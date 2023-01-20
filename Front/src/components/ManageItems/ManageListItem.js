@@ -4,12 +4,12 @@ import {
   IconButton,
   ListItem,
   ListItemAvatar,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import { StyledListItemButton } from "./ManageListItem.styles";
 
 export const ManageListItem = ({
   item: { _id, name, price, imageURL, description },
@@ -27,7 +27,7 @@ export const ManageListItem = ({
       }
       disablePadding
     >
-      <ListItemButton role={undefined} onClick={() => handleCheck(_id)} dense>
+      <StyledListItemButton role={undefined} onClick={() => handleCheck(_id)} dense>
         <ListItemIcon>
           <Checkbox edge="start" checked={isChecked(_id)} tabIndex={-1} disableRipple />
         </ListItemIcon>
@@ -52,7 +52,7 @@ export const ManageListItem = ({
             </>
           }
         />
-      </ListItemButton>
+      </StyledListItemButton>
     </ListItem>
   );
 };

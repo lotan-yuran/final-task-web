@@ -3,12 +3,11 @@ import storeService from "../../services/storeService";
 import { CartItem, UserDetailsPopup } from "../../components";
 import { Typography, Grid, Button } from "@mui/material";
 import { StyledPaper, StyledGridContainer } from "./Cart.style";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { cartItemsState, cartTotalPriceState } from "../../Recoil";
+import { useRecoilState } from "recoil";
+import { cartItemsState } from "../../Recoil";
 
 export const Cart = () => {
   const [cartItems, setCartItems] = useRecoilState(cartItemsState);
-  // const [totalPrice] = useRecoilValue(cartTotalPriceState);
   const [openPopup, setOpenPopup] = useState(false);
   const [userDetails, setUserDetails] = useState({});
 
