@@ -29,7 +29,7 @@ const textFields = [
     required: true,
     type: "number",
     inputProps: {
-      min: "0"
+      min: 0
       //   inputMode: "numeric",
       //   pattern: "[0-9]*",
     },
@@ -45,9 +45,9 @@ const textFields = [
   }
 ];
 
-export const AddItemPopup = ({ open, handleCancel, handleConfirm }) => {
+export const AddItemPopup = ({ open, item, setItem, handleCancel, handleConfirm }) => {
   const [isformValid, setIsFormValid] = useState(true);
-  const [item, setItem] = useState();
+  // const [item, setItem] = useState({});
 
   const handleChange = (e, field) => {
     const val = e.target.value;

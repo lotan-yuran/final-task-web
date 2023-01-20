@@ -1,12 +1,12 @@
 import { StyledCard } from "./Item.style";
 import { AddShoppingCart } from "@mui/icons-material";
 import { CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography } from "@mui/material";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { cartItemsState } from "../../Recoil";
 
 export const Item = ({ item }) => {
   const { name, price, imageURL, description } = item;
-  const [cartItems, setCartItems] = useRecoilState(cartItemsState);
+  const setCartItems = useSetRecoilState(cartItemsState);
 
   const addItemToCart = newItem => {
     setCartItems(prevCartItem => {
