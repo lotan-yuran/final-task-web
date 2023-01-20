@@ -10,7 +10,6 @@ export const Filters = ({ priceRangeValue, setPriceRangeValue, categoryFilters, 
 
   return (
     <StyledBox>
-      <Filter title="Sort">TODO : SORT PRICE LOW TO HIGH</Filter>
       <Filter title="Categories">
         <CategoriesSelector categories={categories} value={categoryFilters} setValue={setCategoryFilters} />
       </Filter>

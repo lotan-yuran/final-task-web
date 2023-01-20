@@ -1,13 +1,20 @@
 import { Grid } from "@mui/material";
-import { useRecoilState } from "recoil";
-import { itemsState } from "../../Recoil";
 import { useMemo, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { categoriesState, itemsState } from "../../Recoil";
 import { Filters, Item, ScrollTopButton } from "../../components";
 
 export const Store = ({ searchText }) => {
   const [items] = useRecoilState(itemsState);
+  const categories = useRecoilValue(categoriesState);
+
+  const mappedCategories = useMemo(
+    () => categories.reduce((prev, { name: categoryName }) => ({ ...prev, [categoryName]: true }), {}),
+    [categories]
+  );
+
   const [priceRangeValue, setPriceRangeValue] = useState([0, 10000]);
-  const [categoryFilters, setCategoryFilters] = useState({});
+  const [categoryFilters, setCategoryFilters] = useState(mappedCategories);
 
   const filteredItemsByText = useMemo(
     () =>
@@ -20,11 +27,13 @@ export const Store = ({ searchText }) => {
   );
 
   const filteredItems = useMemo(
-    () => filteredItemsByText.filter(({ price }) => price > priceRangeValue[0] && price < priceRangeValue[1]),
-    [filteredItemsByText, priceRangeValue]
+    () =>
+      filteredItemsByText.filter(
+        ({ price, category }) =>
+          price > priceRangeValue[0] && price < priceRangeValue[1] && categoryFilters[category.name]
+      ),
+    [filteredItemsByText, priceRangeValue, categoryFilters]
   );
-
-  console.log(categoryFilters);
 
   return (
     <>
