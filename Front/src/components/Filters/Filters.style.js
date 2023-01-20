@@ -10,7 +10,10 @@ export const StyledBox = styled(Box)({
   backgroundColor: "#eee",
   padding: "20px 30px",
   boxSizing: "border-box",
-  display: "flex",
   flexWrap: "wrap",
-  alignContent: "center"
+  alignContent: "center",
+  display: "grid",
+  gridTemplateColumns: "120px 120px 1fr",
+  gridTemplateRows: "auto",
+  gridColumnGap: 40
 });

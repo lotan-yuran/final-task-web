@@ -1,11 +1,19 @@
+import { useRecoilValue } from "recoil";
 import { Filter } from "./Filter/Filter";
 import { StyledBox } from "./Filters.style";
-import { PriceRangeSelector } from "./PriceRangeSelector";
-import { CategoriesSelector } from "./CategoriesSelector";
-import { useRecoilValue } from "recoil";
+import { Button, Box } from "@mui/material";
 import { categoriesState } from "../../Recoil";
+import { CategoriesSelector } from "./CategoriesSelector";
+import { PriceRangeSelector } from "./PriceRangeSelector";
 
-export const Filters = ({ priceRangeValue, setPriceRangeValue, categoryFilters, setCategoryFilters }) => {
+export const Filters = ({
+  resetFilters,
+  priceRangeValue,
+  categoryFilters,
+  isActiveFilters,
+  setCategoryFilters,
+  setPriceRangeValue
+}) => {
   const categories = useRecoilValue(categoriesState);
 
   return (
@@ -16,6 +24,13 @@ export const Filters = ({ priceRangeValue, setPriceRangeValue, categoryFilters, 
       <Filter title="Price Range">
         <PriceRangeSelector value={priceRangeValue} setValue={setPriceRangeValue} />
       </Filter>
+      {isActiveFilters && (
+        <Box sx={{ textAlign: "right" }}>
+          <Button onClick={resetFilters} variant="contained">
+            watch all
+          </Button>
+        </Box>
+      )}
     </StyledBox>
   );
 };
