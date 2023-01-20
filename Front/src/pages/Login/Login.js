@@ -3,6 +3,7 @@ import { emailRegex } from "../../constants";
 import { LockOutlined } from "@mui/icons-material";
 import { Grid, TextField, Link, Box, Typography } from "@mui/material";
 import { StyledAlert, StyledAvatar, StyledBoxRoot, StyledButtom } from "./Login.style";
+import firebaseService from "../../services/firebaseService";
 
 const textFields = [
   {
@@ -43,7 +44,7 @@ export const Login = () => {
     return true;
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const data = {
@@ -54,10 +55,23 @@ export const Login = () => {
     console.log(data);
 
     if (validateValues(data)) {
-      // TODO:  register user
-
-      // TODO : use error
-      setError("A problem occurred in registration process! :(");
+      try {
+        const loggedInUser = await firebaseService.loginUser(data.email, data.password);
+        console.log("loggedInUser");
+        console.log(loggedInUser);
+      } catch (error) {
+        switch (error.response.data.error.message) {
+          case "INVALID_PASSWORD":
+            setError("Invalid password!");
+            break;
+          case "EMAIL_NOT_FOUND":
+            setError("Invalid email!");
+            break;
+          default:
+            setError("A problem occurred in login process! :(");
+            break;
+        }   
+      }
     }
 
     setTimeout(() => {
