@@ -6,12 +6,12 @@ import { DeleteConfirmPopup, EditItemPopup, AddItemPopup } from "../../component
 import { ManageHeader } from "./ManageHeader";
 import { ManageListItem } from "./ManageListItem";
 import storeService from "../../services/storeService";
-import axios from "axios";
 
 export const ManageItems = ({ title }) => {
   const [items, setItems] = useRecoilState(itemsState);
   const [checkedIds, setCheckedIds] = useState([]);
-  const [editedItem, setEditedItem] = useState();
+  const [editedItem, setEditedItem] = useState({});
+  const [newItem, setNewItem] = useState({});
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [openEditPopup, setOpenEditPopup] = useState(false);
   const [openAddPopup, setOpenAddPopup] = useState(false);
@@ -20,12 +20,12 @@ export const ManageItems = ({ title }) => {
     return checkedIds.includes(id) ? true : false;
   };
 
-  const handleClickCheckItem = ItemId => {
-    const currentIndex = checkedIds.indexOf(ItemId);
+  const handleClickCheckItem = itemId => {
+    const currentIndex = checkedIds.indexOf(itemId);
     const newCheckedIds = [...checkedIds];
 
     if (currentIndex === -1) {
-      newCheckedIds.push(ItemId);
+      newCheckedIds.push(itemId);
     } else {
       newCheckedIds.splice(currentIndex, 1);
     }
@@ -41,17 +41,18 @@ export const ManageItems = ({ title }) => {
 
   const handleDeleteConfirm = () => {
     if (checkedIds.length === 0) {
-      // TODO: message to client
+      alert("No products have been selected for deletion");
     } else {
       const itemIdsToDelete = new Set(checkedIds);
 
-      const deleteRequests = checkedIds.map(itemId => {
-        storeService.deleteProduct(itemId);
-      });
-
-      axios
-        .all(deleteRequests)
-        .then(response => {
+      Promise.all(
+        checkedIds.map(itemId => {
+          storeService.deleteProduct(itemId);
+        })
+      )
+        .then(() => {
+          // TODO: need response value from db
+          // console.log(values);
           setItems(prevItems => {
             return prevItems.filter(item => {
               // return those items that their id not in the itemIdsToDelete
@@ -60,8 +61,8 @@ export const ManageItems = ({ title }) => {
           });
           alert("The product has been successfully deleted from DB");
         })
-        .catch(err => {
-          console.error(err);
+        .catch(error => {
+          console.error(error.message);
           alert("Add product failed");
         })
         .finally(() => {
@@ -85,12 +86,20 @@ export const ManageItems = ({ title }) => {
         console.error(err);
         alert("Add product failed");
       })
-      .finally(setOpenEditPopup(false));
+      .finally(() => {
+        setEditedItem({});
+        setOpenEditPopup(false);
+      });
   };
 
-  const handleAddConfirm = item => {
+  const handleEditCancel = () => {
+    setEditedItem({});
+    setOpenEditPopup(false);
+  };
+
+  const handleAddConfirm = () => {
     storeService
-      .addProduct(item)
+      .addProduct(newItem)
       .then(response => {
         setItems(prevItems => [...prevItems, response]);
         alert("The product has been successfully added to DB");
@@ -99,8 +108,17 @@ export const ManageItems = ({ title }) => {
         console.error(err);
         alert("Add product failed");
       })
-      .finally(setOpenAddPopup(false));
+      .finally(() => {
+        setNewItem({});
+        setOpenAddPopup(false);
+      });
   };
+
+  const handleAddCancel = () => {
+    setNewItem({});
+    setOpenAddPopup(false);
+  };
+
   return (
     <>
       <ManageHeader title={title} setOpenAddPopup={setOpenAddPopup} setOpenDeletePopup={setOpenDeletePopup} />
@@ -126,14 +144,16 @@ export const ManageItems = ({ title }) => {
       />
       <EditItemPopup
         open={openEditPopup}
-        handleCancel={() => setOpenEditPopup(false)}
-        handleConfirm={handleEditConfirm}
         editedItem={editedItem}
         setEditedItem={setEditedItem}
+        handleCancel={handleEditCancel}
+        handleConfirm={handleEditConfirm}
       />
       <AddItemPopup
         open={openAddPopup}
-        handleCancel={() => setOpenAddPopup(false)}
+        item={newItem}
+        setItem={setNewItem}
+        handleCancel={handleAddCancel}
         handleConfirm={handleAddConfirm}
       />
     </>
