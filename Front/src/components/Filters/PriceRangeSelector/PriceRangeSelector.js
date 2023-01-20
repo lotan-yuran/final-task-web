@@ -1,4 +1,4 @@
-import { Box, Slider } from "@mui/material";
+import { Box, Button, Slider } from "@mui/material";
 
 const marks = [
   {
@@ -17,7 +17,7 @@ export const PriceRangeSelector = ({ value, setValue }) => {
   };
 
   return (
-    <Box sx={{ width: 200, p: 5 }}>
+    <Box sx={{ width: 200, p: 5, textAlign: "center" }}>
       <Slider
         min={0}
         max={10000}
@@ -26,6 +26,9 @@ export const PriceRangeSelector = ({ value, setValue }) => {
         valueLabelDisplay="auto"
         marks={marks}
       />
+      <Button onClick={() => setValue([0, 10000])} variant="contained" sx={{ mt: 1 }}>
+        Reset
+      </Button>
     </Box>
   );
 };
