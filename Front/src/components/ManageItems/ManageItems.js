@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useResetRecoilState, useRecoilState } from "recoil";
 import { itemsState } from "../../Recoil";
 import { List } from "@mui/material";
 import { DeleteConfirmPopup, EditItemPopup, AddItemPopup } from "../../components";
@@ -9,6 +9,7 @@ import storeService from "../../services/storeService";
 
 export const ManageItems = ({ title }) => {
   const [items, setItems] = useRecoilState(itemsState);
+  // const resetItems = useResetRecoilState(itemsState);
   const [checkedIds, setCheckedIds] = useState([]);
   const [editedItem, setEditedItem] = useState();
   const [openDeletePopup, setOpenDeletePopup] = useState(false);

@@ -31,7 +31,7 @@ app.use("/product", productRoutes);
 app.use("/order", orderRoutes);
 app.use("/category", categoryRoutes);
 app.use("/cart", cartRoutes);
-app.use("/scraping", scrapingRoutes);
+// app.use("/scraping", scrapingRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
