@@ -1,12 +1,13 @@
-import axios from "axios";
+import { createAxiosInstance } from "../config/axiosInstance";
 // eslint-disable-next-line no-undef
 const { REACT_APP_SERVICE } = process.env;
+const storeAxiosInstance = createAxiosInstance(REACT_APP_SERVICE);
 
 export default {
   getItems: () => {
     return new Promise((resolve, reject) => {
-      axios
-        .get(`${REACT_APP_SERVICE}/product`)
+      storeAxiosInstance
+        .get(`/product`)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -14,8 +15,8 @@ export default {
 
   addProduct: product => {
     return new Promise((resolve, reject) => {
-      axios
-        .post(`${REACT_APP_SERVICE}/product`, product)
+      storeAxiosInstance
+        .post(`/product`, product)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -23,8 +24,8 @@ export default {
 
   deleteProduct: productId => {
     return new Promise((resolve, reject) => {
-      axios
-        .delete(`${REACT_APP_SERVICE}/product/${productId}`)
+      storeAxiosInstance
+        .delete(`/product/${productId}`)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -32,8 +33,8 @@ export default {
 
   editProduct: product => {
     return new Promise((resolve, reject) => {
-      axios
-        .put(`${REACT_APP_SERVICE}/product/${product._id}`, product)
+      storeAxiosInstance
+        .put(`/product/${product._id}`, product)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -41,8 +42,8 @@ export default {
 
   addOrder: order => {
     return new Promise((resolve, reject) => {
-      axios
-        .post(`${REACT_APP_SERVICE}/order`, order)
+      storeAxiosInstance
+        .post(`/order`, order)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -50,7 +51,7 @@ export default {
 
   getCategories: () => {
     return new Promise((resolve, reject) => {
-      axios
+      storeAxiosInstance
         .get(`${REACT_APP_SERVICE}/category`)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));

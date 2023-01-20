@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { SearchTextField } from "../SearchTextField";
 import { StyledTypography } from "./NavigationBar.style";
 import { AppBar, Badge, IconButton, Toolbar } from "@mui/material";
-import { AdminPanelSettings, ShoppingCart } from "@mui/icons-material";
+import { AdminPanelSettings, Person, ShoppingCart } from "@mui/icons-material";
 
 export const NavigationBar = ({ onSearch }) => {
   const location = useLocation();
@@ -23,6 +23,11 @@ export const NavigationBar = ({ onSearch }) => {
             <Badge badgeContent={cartQuantity} color="notification">
               <ShoppingCart />
             </Badge>
+          </IconButton>
+        </Link>
+        <Link to={"/profile"}>
+          <IconButton color="action">
+            <Person />
           </IconButton>
         </Link>
         <Link to={"/admin"}>

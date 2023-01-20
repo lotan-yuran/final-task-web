@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
 import { NavigationBar } from "./components";
-import { Store, Cart, Login, Admin, Register } from "./pages";
+import { Store, Cart, Login, Admin, Register, Profile } from "./pages";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
 
 export default function App() {
@@ -27,6 +27,7 @@ export default function App() {
         <Route path="/" element={<LayoutNavbar />}>
           <Route path="/" element={<Store searchText={searchText} setSearchText={setSearchText} />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/profile" element={<Profile />} />
           {isAdmin && <Route path="/admin" element={<Admin />} />}
         </Route>
         <Route path="/login" element={<Login />} />
