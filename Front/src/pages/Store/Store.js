@@ -1,10 +1,11 @@
 import { Grid } from "@mui/material";
 import { useMemo, useState } from "react";
+import { PRICE_RANGE } from "../../constants";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { categoriesState, itemsState } from "../../Recoil";
 import { Filters, Item, ScrollTopButton } from "../../components";
 
-export const Store = ({ searchText }) => {
+export const Store = ({ searchText, setSearchText }) => {
   const [items] = useRecoilState(itemsState);
   const categories = useRecoilValue(categoriesState);
 
@@ -13,8 +14,17 @@ export const Store = ({ searchText }) => {
     [categories]
   );
 
-  const [priceRangeValue, setPriceRangeValue] = useState([0, 10000]);
   const [categoryFilters, setCategoryFilters] = useState(mappedCategories);
+  const [priceRangeValue, setPriceRangeValue] = useState([PRICE_RANGE.min, PRICE_RANGE.max]);
+
+  const isActiveFilters = useMemo(
+    () =>
+      searchText.length > 0 ||
+      priceRangeValue[0] !== PRICE_RANGE.min ||
+      priceRangeValue[1] !== PRICE_RANGE.max ||
+      !Object.values(categoryFilters).every(value => value === true),
+    [searchText, priceRangeValue, categoryFilters]
+  );
 
   const filteredItemsByText = useMemo(
     () =>
@@ -35,6 +45,12 @@ export const Store = ({ searchText }) => {
     [filteredItemsByText, priceRangeValue, categoryFilters]
   );
 
+  const resetFilters = () => {
+    setCategoryFilters(mappedCategories);
+    setPriceRangeValue([PRICE_RANGE.min, PRICE_RANGE.max]);
+    setSearchText("");
+  };
+
   return (
     <>
       <div>
@@ -43,6 +59,8 @@ export const Store = ({ searchText }) => {
           setPriceRangeValue={setPriceRangeValue}
           categoryFilters={categoryFilters}
           setCategoryFilters={setCategoryFilters}
+          isActiveFilters={isActiveFilters}
+          resetFilters={resetFilters}
         />
       </div>
       <Grid container spacing={4} justify="center">

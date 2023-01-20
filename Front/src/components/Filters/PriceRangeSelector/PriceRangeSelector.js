@@ -1,13 +1,14 @@
+import { PRICE_RANGE } from "../../../constants";
 import { Box, Button, Slider } from "@mui/material";
 
 const marks = [
   {
-    value: 0,
-    label: "0$"
+    value: PRICE_RANGE.min,
+    label: `${PRICE_RANGE.min}$`
   },
   {
-    value: 10000,
-    label: "10000$"
+    value: PRICE_RANGE.max,
+    label: `${PRICE_RANGE.max}$`
   }
 ];
 
@@ -19,14 +20,14 @@ export const PriceRangeSelector = ({ value, setValue }) => {
   return (
     <Box sx={{ width: 200, p: 5, textAlign: "center" }}>
       <Slider
-        min={0}
-        max={10000}
+        min={PRICE_RANGE.min}
+        max={PRICE_RANGE.max}
         value={value}
         onChange={handleChange}
         valueLabelDisplay="auto"
         marks={marks}
       />
-      <Button onClick={() => setValue([0, 10000])} variant="contained" sx={{ mt: 1 }}>
+      <Button onClick={() => setValue([PRICE_RANGE.min, PRICE_RANGE.max])} variant="contained" sx={{ mt: 1 }}>
         Reset
       </Button>
     </Box>

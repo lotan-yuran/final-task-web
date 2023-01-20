@@ -25,7 +25,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LayoutNavbar />}>
-          <Route path="/" element={<Store searchText={searchText} />} />
+          <Route path="/" element={<Store searchText={searchText} setSearchText={setSearchText} />} />
           <Route path="/cart" element={<Cart />} />
           {isAdmin && <Route path="/admin" element={<Admin />} />}
         </Route>
