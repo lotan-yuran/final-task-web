@@ -28,6 +28,9 @@ export const SelectField = ({
         onChange={e => handleChange(e, field)}
         MenuProps={MenuProps}
       >
+        <MenuItem value="" disabled>
+          <em>Please select {label}</em>
+        </MenuItem>
         {options.map((option, index) => (
           <MenuItem key={index} value={index}>
             {option.name}

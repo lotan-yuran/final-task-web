@@ -17,8 +17,6 @@ export const ManageItems = ({ title }) => {
   const [openEditPopup, setOpenEditPopup] = useState(false);
   const [openAddPopup, setOpenAddPopup] = useState(false);
 
-  // console.log(categories);
-
   const isChecked = id => {
     return checkedIds.includes(id) ? true : false;
   };
@@ -100,9 +98,11 @@ export const ManageItems = ({ title }) => {
   };
 
   const handleAddConfirm = () => {
+    // TODO: in response we need to get full category object
     storeService
       .addProduct(newItem)
       .then(response => {
+        // console.log(response);
         setItems(prevItems => [...prevItems, response]);
         alert("The product has been successfully added to DB");
       })
@@ -155,6 +155,7 @@ export const ManageItems = ({ title }) => {
       <AddItemPopup
         open={openAddPopup}
         item={newItem}
+        categories={categories}
         setItem={setNewItem}
         handleCancel={handleAddCancel}
         handleConfirm={handleAddConfirm}

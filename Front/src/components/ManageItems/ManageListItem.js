@@ -49,7 +49,7 @@ export const ManageListItem = ({
                 {`id: ${_id}`}
               </Typography>
               <Typography sx={{ display: "block" }} component="span" variant="body2" color="text.secondary">
-                {`category: ${category.name}`}
+                {`category: ${category?.name}`}
               </Typography>
               <Typography sx={{ display: "block" }} component="span" variant="body2" color="text.secondary">
                 {`price: ${price}$`}
