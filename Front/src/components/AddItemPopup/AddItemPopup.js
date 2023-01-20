@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { StyledTextField } from "./AddItemPopup.style";
+import { SelectField } from "../../components";
 
 const textFields = [
   {
@@ -45,13 +46,23 @@ const textFields = [
   }
 ];
 
-export const AddItemPopup = ({ open, item, setItem, handleCancel, handleConfirm }) => {
+const categoryField = {
+  field: "category",
+  id: "demo-simple-select-required",
+  label: "Category",
+  required: true
+};
+
+export const AddItemPopup = ({ open, item, setItem, handleCancel, handleConfirm, categories }) => {
   const [isformValid, setIsFormValid] = useState(true);
-  // const [item, setItem] = useState({});
 
   const handleChange = (e, field) => {
     const val = e.target.value;
     setItem(prevItem => ({ ...prevItem, [field]: val }));
+  };
+
+  const handleSelectChange = (e, field) => {
+    setItem(prevItem => ({ ...prevItem, [field]: categories[e.target.value] }));
   };
 
   const handleSubmit = () => {
@@ -66,11 +77,17 @@ export const AddItemPopup = ({ open, item, setItem, handleCancel, handleConfirm 
       }
     });
 
+    // No category has been selected yet
+    const selectValue = item?.[categoryField.field];
+    if (!selectValue) {
+      isValid = false;
+    }
+
     if (!isValid) {
       setIsFormValid(false);
     } else {
       setIsFormValid(true);
-      handleConfirm(item);
+      handleConfirm();
     }
   };
 
@@ -104,6 +121,12 @@ export const AddItemPopup = ({ open, item, setItem, handleCancel, handleConfirm 
             />
           );
         })}
+        <SelectField
+          fieldProperties={categoryField}
+          value={categories.findIndex(x => x._id === item?.category?._id)}
+          options={categories}
+          handleChange={handleSelectChange}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>

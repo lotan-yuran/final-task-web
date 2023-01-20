@@ -14,9 +14,10 @@ export default {
   },
 
   addProduct: product => {
+    const newProduct = { ...product, categoryId: product.category._id };
     return new Promise((resolve, reject) => {
       storeAxiosInstance
-        .post(`/product`, product)
+        .post(`/product`, newProduct)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });

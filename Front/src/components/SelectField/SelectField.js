@@ -12,19 +12,27 @@ const MenuProps = {
   }
 };
 
-export const SelectField = ({ fieldProperties: { field, id, label, required }, options, value }) => {
+export const SelectField = ({
+  fieldProperties: { field, id, label, required },
+  options,
+  value,
+  handleChange
+}) => {
   return (
     <StyledFormControl key={field}>
       <InputLabel required={required}>{label}</InputLabel>
       <Select
         id={id}
-        value={value ?? ""}
+        value={value === -1 ? "" : value}
         label={label}
-        onChange={() => console.log("blabla")}
+        onChange={e => handleChange(e, field)}
         MenuProps={MenuProps}
       >
+        <MenuItem value="" disabled>
+          <em>Please select {label}</em>
+        </MenuItem>
         {options.map((option, index) => (
-          <MenuItem key={index} value={option._id}>
+          <MenuItem key={index} value={index}>
             {option.name}
           </MenuItem>
         ))}

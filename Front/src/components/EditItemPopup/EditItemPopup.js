@@ -69,6 +69,10 @@ export const EditItemPopup = ({
     setEditedItem(prevEditedItem => ({ ...prevEditedItem, [field]: val }));
   };
 
+  const handleSelectChange = (e, field) => {
+    setEditedItem(prevEditedItem => ({ ...prevEditedItem, [field]: categories[e.target.value] }));
+  };
+
   const handleSubmit = () => {
     let isValid = true;
 
@@ -120,7 +124,12 @@ export const EditItemPopup = ({
             />
           );
         })}
-        <SelectField fieldProperties={categoryField} value={editedItem?.category?._id} options={categories} />
+        <SelectField
+          fieldProperties={categoryField}
+          value={categories.findIndex(x => x._id === editedItem?.category?._id)}
+          options={categories}
+          handleChange={handleSelectChange}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>
