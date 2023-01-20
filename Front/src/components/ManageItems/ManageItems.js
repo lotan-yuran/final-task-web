@@ -6,6 +6,7 @@ import { DeleteConfirmPopup, EditItemPopup, AddItemPopup } from "../../component
 import { ManageHeader } from "./ManageHeader";
 import { ManageListItem } from "./ManageListItem";
 import storeService from "../../services/storeService";
+import axios from "axios";
 
 export const ManageItems = ({ title }) => {
   const [items, setItems] = useRecoilState(itemsState);
@@ -44,32 +45,55 @@ export const ManageItems = ({ title }) => {
       // TODO: message to client
     } else {
       const itemIdsToDelete = new Set(checkedIds);
-      // TODO: Need to delete from db!
-      // Delete items that has been checked
-      setItems(prevItems => {
-        return prevItems.filter(item => {
-          // return those items that their id not in the itemIdsToDelete
-          return !itemIdsToDelete.has(item._id);
-        });
+
+      const deleteRequests = checkedIds.map(itemId => {
+        storeService.deleteProduct(itemId);
       });
+
+      axios
+        .all(deleteRequests)
+        .then(response => {
+          setItems(prevItems => {
+            return prevItems.filter(item => {
+              // return those items that their id not in the itemIdsToDelete
+              return !itemIdsToDelete.has(item._id);
+            });
+          });
+          alert("The product has been successfully deleted from DB");
+        })
+        .catch(err => {
+          console.error(err);
+          alert("Add product failed");
+        })
+        .finally(() => {
+          setCheckedIds([]);
+          setOpenDeletePopup(false);
+        });
     }
-    setCheckedIds([]);
-    setOpenDeletePopup(false);
   };
 
   const handleEditConfirm = () => {
-    // TODO: Need to edit on db!
-    setItems(prevItems => {
-      return prevItems.map(item => (item._id === editedItem._id ? editedItem : item));
-    });
-    setOpenEditPopup(false);
+    storeService
+      .editProduct(editedItem)
+      .then(response => {
+        console.log(response);
+        setItems(prevItems => {
+          return prevItems.map(item => (item._id === response._id ? response : item));
+        });
+        alert("The product has been successfully added to DB");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Add product failed");
+      })
+      .finally(setOpenEditPopup(false));
   };
 
   const handleAddConfirm = item => {
-    // TODO: need to refresh items state after add request ends
     storeService
       .addProduct(item)
       .then(response => {
+        setItems(prevItems => [...prevItems, response]);
         alert("The product has been successfully added to DB");
       })
       .catch(err => {

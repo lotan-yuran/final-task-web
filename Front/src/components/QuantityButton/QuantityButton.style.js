@@ -1,7 +1,7 @@
 import { styled } from "@mui/system";
 import { Button } from "@mui/material";
 
-export const StyledQuantityButton = styled(Button)(({ theme }) => ({
+export const StyledQuantityButton = styled(Button)({
   "&.Mui-disabled": {
     color: "#c0c0c0"
   },
@@ -13,4 +13,4 @@ export const StyledQuantityButton = styled(Button)(({ theme }) => ({
     background: "#eaeaea",
     color: "#c0c0c0"
   }
-}));
+});
