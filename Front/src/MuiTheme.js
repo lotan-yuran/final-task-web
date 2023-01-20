@@ -13,11 +13,11 @@ export const muiTheme = createTheme({
       main: "#d53ed5"
     },
     action: {
+      main: "#ffffff"
+    },
+    scrollTopButton: {
       main: "#ffffff",
       hover: grey[900]
-    },
-    itemlist: {
-      main: amber[50]
     }
   }
 });

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { itemsState } from "../../Recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { itemsState, categoriesState } from "../../Recoil";
 import { List } from "@mui/material";
 import { DeleteConfirmPopup, EditItemPopup, AddItemPopup } from "../../components";
 import { ManageHeader } from "./ManageHeader";
@@ -9,12 +9,15 @@ import storeService from "../../services/storeService";
 
 export const ManageItems = ({ title }) => {
   const [items, setItems] = useRecoilState(itemsState);
+  const [categories] = useRecoilState(categoriesState);
   const [checkedIds, setCheckedIds] = useState([]);
   const [editedItem, setEditedItem] = useState({});
   const [newItem, setNewItem] = useState({});
   const [openDeletePopup, setOpenDeletePopup] = useState(false);
   const [openEditPopup, setOpenEditPopup] = useState(false);
   const [openAddPopup, setOpenAddPopup] = useState(false);
+
+  // console.log(categories);
 
   const isChecked = id => {
     return checkedIds.includes(id) ? true : false;
@@ -76,7 +79,6 @@ export const ManageItems = ({ title }) => {
     storeService
       .editProduct(editedItem)
       .then(response => {
-        console.log(response);
         setItems(prevItems => {
           return prevItems.map(item => (item._id === response._id ? response : item));
         });
@@ -145,6 +147,7 @@ export const ManageItems = ({ title }) => {
       <EditItemPopup
         open={openEditPopup}
         editedItem={editedItem}
+        categories={categories}
         setEditedItem={setEditedItem}
         handleCancel={handleEditCancel}
         handleConfirm={handleEditConfirm}

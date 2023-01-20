@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { StyledTextField } from "./EditItemPopup.style";
+import { SelectField } from "../../components";
 
 const textFields = [
   {
@@ -46,8 +47,23 @@ const textFields = [
   }
 ];
 
-export const EditItemPopup = ({ open, handleCancel, handleConfirm, editedItem, setEditedItem }) => {
+const categoryField = {
+  field: "category",
+  id: "demo-simple-select-required",
+  label: "Category",
+  required: true
+};
+
+export const EditItemPopup = ({
+  open,
+  handleCancel,
+  handleConfirm,
+  editedItem,
+  setEditedItem,
+  categories
+}) => {
   const [isformValid, setIsFormValid] = useState(true);
+
   const handleChange = (e, field) => {
     const val = e.target.value;
     setEditedItem(prevEditedItem => ({ ...prevEditedItem, [field]: val }));
@@ -104,6 +120,7 @@ export const EditItemPopup = ({ open, handleCancel, handleConfirm, editedItem, s
             />
           );
         })}
+        <SelectField fieldProperties={categoryField} value={editedItem?.category?._id} options={categories} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>

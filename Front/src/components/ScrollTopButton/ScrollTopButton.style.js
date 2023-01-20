@@ -13,9 +13,9 @@ export const StyledButtom = styled(Button, {
   cursor: "pointer",
   minWidth: "0",
   display: visible ? "block" : "none",
-  color: theme.palette.action.main,
+  color: theme.palette.scrollTopButton.main,
   backgroundColor: theme.palette.primary.main,
   "&:hover": {
-    color: theme.palette.action.hover
+    color: theme.palette.scrollTopButton.hover
   }
 }));

@@ -6,13 +6,13 @@ import {
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
+  ListItemButton,
   Typography
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { StyledListItemButton } from "./ManageListItem.styles";
 
 export const ManageListItem = ({
-  item: { _id, name, price, imageURL, description },
+  item: { _id, name, price, imageURL, description, category },
   handleEditItem,
   handleCheck,
   isChecked
@@ -27,7 +27,7 @@ export const ManageListItem = ({
       }
       disablePadding
     >
-      <StyledListItemButton role={undefined} onClick={() => handleCheck(_id)} dense>
+      <ListItemButton role={undefined} onClick={() => handleCheck(_id)} dense>
         <ListItemIcon>
           <Checkbox edge="start" checked={isChecked(_id)} tabIndex={-1} disableRipple />
         </ListItemIcon>
@@ -48,11 +48,16 @@ export const ManageListItem = ({
               <Typography sx={{ display: "block" }} component="span" variant="body2" color="text.secondary">
                 {`id: ${_id}`}
               </Typography>
-              {`price: ${price}$`}
+              <Typography sx={{ display: "block" }} component="span" variant="body2" color="text.secondary">
+                {`category: ${category.name}`}
+              </Typography>
+              <Typography sx={{ display: "block" }} component="span" variant="body2" color="text.secondary">
+                {`price: ${price}$`}
+              </Typography>
             </>
           }
         />
-      </StyledListItemButton>
+      </ListItemButton>
     </ListItem>
   );
 };
