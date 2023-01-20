@@ -1,8 +1,14 @@
+import { useRecoilValue } from "recoil";
+import { categoriesState } from "../../Recoil";
 import { Filter } from "./Filter/Filter";
 import { StyledBox } from "./Filters.style";
 import { PriceRangeSelector } from "./PriceRangeSelector";
 
 export const Filters = ({ priceRangeValue, setPriceRangeValue }) => {
+  const categories = useRecoilValue(categoriesState);
+
+  console.log(categories);
+
   return (
     <StyledBox>
       <Filter title="Sort">TODO : SORT PRICE LOW TO HIGH</Filter>

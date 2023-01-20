@@ -25,7 +25,7 @@ const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const cartRoutes = require("./routes/cartRoutes");
-const scrapingRoutes = require("./routes/scrapingRoutes");
+// const scrapingRoutes = require("./routes/scrapingRoutes");
 
 app.use("/product", productRoutes);
 app.use("/order", orderRoutes);
