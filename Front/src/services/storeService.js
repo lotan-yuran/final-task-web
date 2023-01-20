@@ -7,7 +7,7 @@ export default {
   getItems: () => {
     return new Promise((resolve, reject) => {
       storeAxiosInstance
-        .get(`${REACT_APP_SERVICE}/product`)
+        .get(`/product`)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -16,7 +16,7 @@ export default {
   addProduct: product => {
     return new Promise((resolve, reject) => {
       storeAxiosInstance
-        .post(`${REACT_APP_SERVICE}/product`, product)
+        .post(`/product`, product)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -25,7 +25,7 @@ export default {
   deleteProduct: productId => {
     return new Promise((resolve, reject) => {
       storeAxiosInstance
-        .delete(`${REACT_APP_SERVICE}/product/${productId}`)
+        .delete(`/product/${productId}`)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -34,7 +34,7 @@ export default {
   editProduct: product => {
     return new Promise((resolve, reject) => {
       storeAxiosInstance
-        .put(`${REACT_APP_SERVICE}/product/${product._id}`, product)
+        .put(`/product/${product._id}`, product)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -43,7 +43,7 @@ export default {
   addOrder: order => {
     return new Promise((resolve, reject) => {
       storeAxiosInstance
-        .post(`${REACT_APP_SERVICE}/order`, order)
+        .post(`/order`, order)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
