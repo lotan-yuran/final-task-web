@@ -1,10 +1,10 @@
 import { useState } from "react";
-import storeService from "../../services/storeService";
 import { CartItem, UserDetailsPopup } from "../../components";
 import { Typography, Grid, Button } from "@mui/material";
 import { StyledPaper, StyledGridContainer } from "./Cart.style";
 import { useRecoilState } from "recoil";
 import { cartItemsState } from "../../Recoil";
+import orderService from "../../services/orderService";
 
 export const Cart = () => {
   const [cartItems, setCartItems] = useRecoilState(cartItemsState);
@@ -47,7 +47,7 @@ export const Cart = () => {
     // Order is an array of cart items id's
     const products = cartItems.map(cartItem => cartItem._id);
 
-    storeService
+    orderService
       .addOrder({ products, ...userDetails })
       .then(() => {
         alert("The order has been successfully added to DB");
