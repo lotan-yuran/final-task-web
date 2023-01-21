@@ -1,13 +1,13 @@
 import { createAxiosInstance } from "../config/axiosInstance";
 // eslint-disable-next-line no-undef
 const { REACT_APP_SERVICE } = process.env;
-const storeAxiosInstance = createAxiosInstance(REACT_APP_SERVICE);
+const productAxiosInstance = createAxiosInstance(`${REACT_APP_SERVICE}/product`);
 
 export default {
-  getItems: () => {
+  getProducts: () => {
     return new Promise((resolve, reject) => {
-      storeAxiosInstance
-        .get(`/product`)
+      productAxiosInstance
+        .get(``)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -16,8 +16,8 @@ export default {
   addProduct: product => {
     const newProduct = { ...product, categoryId: product.category._id };
     return new Promise((resolve, reject) => {
-      storeAxiosInstance
-        .post(`/product`, newProduct)
+      productAxiosInstance
+        .post(``, newProduct)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -25,8 +25,8 @@ export default {
 
   deleteProduct: productId => {
     return new Promise((resolve, reject) => {
-      storeAxiosInstance
-        .delete(`/product/${productId}`)
+      productAxiosInstance
+        .delete(`/${productId}`)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
@@ -34,26 +34,8 @@ export default {
 
   editProduct: product => {
     return new Promise((resolve, reject) => {
-      storeAxiosInstance
-        .put(`/product/${product._id}`, product)
-        .then(({ data }) => resolve(data))
-        .catch(err => reject(err));
-    });
-  },
-
-  addOrder: order => {
-    return new Promise((resolve, reject) => {
-      storeAxiosInstance
-        .post(`/order`, order)
-        .then(({ data }) => resolve(data))
-        .catch(err => reject(err));
-    });
-  },
-
-  getCategories: () => {
-    return new Promise((resolve, reject) => {
-      storeAxiosInstance
-        .get(`${REACT_APP_SERVICE}/category`)
+      productAxiosInstance
+        .put(`/${product._id}`, product)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
