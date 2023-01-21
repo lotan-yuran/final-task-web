@@ -43,22 +43,22 @@ router.get("/:userId", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const { products, userId, name, address, phone } = req.body;
+    const fullProducts = [];
 
-    const productsPromise = products.map(async (p) => {
-      const a = Product.findById(p.product);
-      return { ...p, product: a };
-    });
+    for (const p of products) {
+      const current = await Product.findById(p.product).populate("category");
+      fullProducts.push({ product: { ...current }, quantity: p.quantity }); // the ... is because without this it not return the full category object     
+    }
 
-    const updatedProducts = await Promise.all(productsPromise);
-    await Order.create({
-      products: updatedProducts,
+    const createdOrder = await Order.create({
+      products: fullProducts,
       userId,
       name,
       address,
       phone,
       orderedAt: new Date(),
     });
-    res.send("Created");
+    res.send(createdOrder);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
