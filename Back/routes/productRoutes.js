@@ -58,7 +58,9 @@ router.delete("/:productId", async (req, res) => {
   try {
     const { productId } = req.params;
     await Product.updateOne({ _id: productId }, { isActive: false });
-    res.send("Deleted");
+    const product = await Product.findByIdAndUpdate({ _id: productId }, { isActive: false }, { new: true });
+    await product.populate('category');
+    res.send(product);
   } catch (error) {
     res.status(500).json({ message: err.message });
   }
