@@ -12,6 +12,12 @@ export const NavigationBar = ({ onSearch }) => {
   const cartQuantity = useRecoilValue(cartQuantityState);
   const user = useRecoilValue(userState);
 
+  useEffect(() => {
+    console.log("user")
+    console.log(user)
+  }, [user])
+  
+
   return (
     <AppBar position="sticky">
       <Toolbar>
