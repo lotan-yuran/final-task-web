@@ -1,8 +1,10 @@
 const express = require("express");
+const WebSocket = require("ws");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
+
 require("dotenv").config();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -38,6 +40,32 @@ app.get("/", (req, res) => {
 });
 
 const port = process.env.PORT;
-app.listen(port, () => {
+const myServer = app.listen(port, () => {
   console.log(`App listening on port ${port}`);
+});
+
+// Web Socket
+const wss = new WebSocket.Server({ server: myServer });
+
+let connectedClients = 0;
+
+wss.on("connection", (ws) => {
+  connectedClients++;
+
+  ws.on("close", () => {
+    connectedClients--;
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(connectedClients);
+      }
+    });
+  });
+
+  ws.on("message", (message) => {
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(connectedClients);
+      }
+    });
+  });
 });

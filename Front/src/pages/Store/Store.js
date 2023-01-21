@@ -40,7 +40,7 @@ export const Store = ({ searchText, setSearchText }) => {
     () =>
       filteredItemsByText.filter(
         ({ price, category }) =>
-          price > priceRangeValue[0] && price < priceRangeValue[1] && categoryFilters[category.name]
+          price > priceRangeValue[0] && price < priceRangeValue[1] && categoryFilters[category?.name]
       ),
     [filteredItemsByText, priceRangeValue, categoryFilters]
   );
