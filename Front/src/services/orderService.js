@@ -20,5 +20,14 @@ export default {
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
+  },
+
+  cancelOrder: orderId => {
+    return new Promise((resolve, reject) => {
+      orderAxiosInstance
+        .delete(`/${orderId}`)
+        .then(({ data }) => resolve(data))
+        .catch(err => reject(err));
+    });
   }
 };

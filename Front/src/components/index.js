@@ -13,5 +13,6 @@ export * from "./EditItemPopup";
 export * from "./QuantityButton";
 export * from "./ScrollTopButton";
 export * from "./SearchTextField";
+export * from "./CancelOrderPopup";
 export * from "./UserDetailsPopup";
 export * from "./DeleteConfirmPopup";
