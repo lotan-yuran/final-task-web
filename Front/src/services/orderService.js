@@ -11,5 +11,14 @@ export default {
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
+  },
+
+  getUserOrders: userId => {
+    return new Promise((resolve, reject) => {
+      orderAxiosInstance
+        .get(`/${userId}`)
+        .then(({ data }) => resolve(data))
+        .catch(err => reject(err));
+    });
   }
 };
