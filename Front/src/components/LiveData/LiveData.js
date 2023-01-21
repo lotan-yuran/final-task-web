@@ -8,7 +8,7 @@ export const LiveData = () => {
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:3001");
 
-    ws.onopen = e => {
+    ws.onopen = () => {
       ws.send("connectMe");
     };
 
