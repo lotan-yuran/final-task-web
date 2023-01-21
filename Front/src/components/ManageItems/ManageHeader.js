@@ -1,6 +1,6 @@
 import { Box } from "@mui/system";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Typography } from "@mui/material";
+import { Add, Delete } from "@mui/icons-material";
 import { StyledButton, StyledBoxWrapper } from "./ManageHeader.style";
 
 export const ManageHeader = ({ title, setOpenAddPopup, setOpenDeletePopup }) => {
@@ -17,7 +17,7 @@ export const ManageHeader = ({ title, setOpenAddPopup, setOpenDeletePopup }) => 
           size="small"
           color="success"
           onClick={() => setOpenAddPopup(true)}
-          startIcon={<DeleteIcon />}
+          startIcon={<Add />}
         >
           Add Item
         </StyledButton>
@@ -25,7 +25,7 @@ export const ManageHeader = ({ title, setOpenAddPopup, setOpenDeletePopup }) => 
           variant="contained"
           size="small"
           onClick={() => setOpenDeletePopup(true)}
-          startIcon={<DeleteIcon />}
+          startIcon={<Delete />}
         >
           Delete
         </StyledButton>

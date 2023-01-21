@@ -1,17 +1,26 @@
+import {
+  Box,
+  Button,
+  Accordion,
+  Typography,
+  AccordionDetails,
+  AccordionSummary,
+  AccordionActions
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { OrderItems } from "../../components";
 import { ExpandMore } from "@mui/icons-material";
 import orderService from "../../services/orderService";
-import { Typography, Button, AccordionSummary, Accordion, Box, AccordionDetails } from "@mui/material";
 
 export const Profile = () => {
   const [orders, setOrders] = useState([]);
+
+  const TWO_DAYS = 60 * 60 * 24 * 1000 * 2;
 
   useEffect(() => {
     orderService
       .getUserOrders("322592973")
       .then(data => {
-        console.log(data);
         setOrders(data);
       })
       .catch(err => {
@@ -19,6 +28,13 @@ export const Profile = () => {
         alert("Failed to get you orders, try again later");
       });
   }, []);
+
+  const checkForTimeDifference = (date, timeDifference) => {
+    const now = Date.now();
+    const temp = new Date(date);
+    const miliDate = temp.getTime();
+    return now - miliDate < timeDifference;
+  };
 
   return (
     <>
@@ -35,12 +51,18 @@ export const Profile = () => {
                   <b>Ordered By:</b> {order.name} <br />
                   <b>Ordered To:</b> {order.address} <br />
                   <b>Contact Number:</b> {order.phone} <br />
-                  {/* todo : add cancel */}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <OrderItems products={order.products} />
               </AccordionDetails>
+              {checkForTimeDifference(order.orderedAt, TWO_DAYS) && (
+                <AccordionActions>
+                  <Button variant="contained" size="medium" onClick={() => console.log("first")}>
+                    Cancel Order
+                  </Button>
+                </AccordionActions>
+              )}
             </Accordion>
           ))
         ) : (

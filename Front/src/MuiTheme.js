@@ -1,4 +1,4 @@
-import { grey, amber } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 export const muiTheme = createTheme({
@@ -18,6 +18,11 @@ export const muiTheme = createTheme({
     scrollTopButton: {
       main: "#ffffff",
       hover: grey[900]
+    }
+  },
+  typography: {
+    button: {
+      textTransform: "none"
     }
   }
 });
