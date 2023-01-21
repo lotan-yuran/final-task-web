@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
   try {
     const { name, price, description, imageURL, categoryId: category } = req.body;
     const product = await Product.create({ name, price, description, imageURL, category, isActive: true });
+    await product.populate('category');
     res.send(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -34,6 +35,7 @@ router.put("/:productId", async (req, res) => {
     const { productId } = req.params;
     const { name, price, description, imageURL, categoryId: category } = req.body;
     const updatedProduct = await Product.findByIdAndUpdate({ _id: productId }, { name, price, description, imageURL, category }, { new: true });
+    await updatedProduct.populate('category');
     res.json(updatedProduct);
   } catch (err) {
     res.status(500).json({ message: err.message });
