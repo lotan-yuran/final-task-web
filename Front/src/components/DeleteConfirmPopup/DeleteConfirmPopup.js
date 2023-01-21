@@ -12,15 +12,10 @@ import {
 
 export const DeleteConfirmPopup = ({ open, handleCancel, handleConfirm, checked }) => {
   return (
-    <Dialog
-      open={open}
-      onClose={handleCancel}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">{"Delete items"}</DialogTitle>
+    <Dialog open={open} onClose={handleCancel}>
+      <DialogTitle>Delete items</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        <DialogContentText>
           Are you sure you want to delete the following items from the store?
         </DialogContentText>
         <List dense={true}>

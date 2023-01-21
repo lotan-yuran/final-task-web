@@ -141,7 +141,6 @@ export const ManageItems = ({ title }) => {
         open={openDeletePopup}
         handleCancel={() => setOpenDeletePopup(false)}
         handleConfirm={handleDeleteConfirm}
-        text={`Are you sure you want to delete the following items?`}
         checked={checkedIds}
       />
       <EditItemPopup
