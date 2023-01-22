@@ -1,32 +1,13 @@
-import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
+import { useRecoilValue } from "recoil";
+import { connectedUsersState } from "../../Recoil";
 
-// const URL = "ws://127.0.0.1:3001";
 export const LiveData = () => {
-  const [connectedUsers, setConnectedUsers] = useState(0);
-
-  useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3001");
-
-    ws.onopen = e => {
-      ws.send("connectMe");
-    };
-
-    ws.onmessage = function (event) {
-      const users = event.data;
-      console.log("connectedUsers: ", users);
-      setConnectedUsers(users);
-    };
-
-    //clean up function
-    return () => {
-      ws.close();
-    };
-  }, []);
+  const connectedUsers = useRecoilValue(connectedUsersState);
 
   return (
     <>
-      <Box>Number of connected Admin users: {connectedUsers} </Box>
+      <Box>Number of connected users: {connectedUsers} </Box>
     </>
   );
 };

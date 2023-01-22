@@ -1,12 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { NavigationBar } from "./components";
 import { Store, Cart, Login, Admin, Register, Profile } from "./pages";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { connectedUsersState } from "./Recoil";
+import { useSocket } from "./socket/SocketHook";
 
 export default function App() {
   const isAdmin = true;
   const [searchText, setSearchText] = useState("");
+  const setConnectedUsers = useSetRecoilState(connectedUsersState);
+  const socket = useSocket();
+
+  useEffect(() => {
+    socket.onmessage = event => {
+      const connectedUsers = event.data;
+      setConnectedUsers(connectedUsers);
+    };
+
+    // Send a messege to the server
+    socket.send("connected!");
+
+    //clean up function
+    return () => {
+      socket.close();
+    };
+  }, [socket, setConnectedUsers]);
 
   const onSearch = value => {
     setSearchText(value);
