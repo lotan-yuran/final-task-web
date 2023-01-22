@@ -4,6 +4,10 @@ import { LockOutlined } from "@mui/icons-material";
 import { Grid, TextField, Link, Box, Typography } from "@mui/material";
 import { StyledAlert, StyledAvatar, StyledBoxRoot, StyledButtom } from "./Login.style";
 import firebaseService from "../../services/firebaseService";
+import adminService from "../../services/adminService";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../../Recoil";
+import { useNavigate  } from 'react-router-dom';
 
 const textFields = [
   {
@@ -29,6 +33,8 @@ const textFields = [
 
 export const Login = () => {
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
+  const setUser = useSetRecoilState(userState);
 
   const validateValues = data => {
     if (!data["email"].match(emailRegex)) {
@@ -59,6 +65,17 @@ export const Login = () => {
         const loggedInUser = await firebaseService.loginUser(data.email, data.password);
         console.log("loggedInUser");
         console.log(loggedInUser);
+        const isAdmin = await adminService.isAdmin(loggedInUser?.email);
+
+        const user = {
+          name: loggedInUser?.displayName,
+          email: loggedInUser?.email,
+          isAdmin
+        }
+
+        setUser(user);
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/")
       } catch (error) {
         switch (error.response.data.error.message) {
           case "INVALID_PASSWORD":

@@ -5,7 +5,7 @@ import { List } from "@mui/material";
 import { DeleteConfirmPopup, EditItemPopup, AddItemPopup } from "../../components";
 import { ManageHeader } from "./ManageHeader";
 import { ManageListItem } from "./ManageListItem";
-import storeService from "../../services/storeService";
+import productService from "../../services/productService";
 
 export const ManageItems = ({ title }) => {
   const [items, setItems] = useRecoilState(itemsState);
@@ -48,7 +48,7 @@ export const ManageItems = ({ title }) => {
 
       Promise.all(
         checkedIds.map(itemId => {
-          storeService.deleteProduct(itemId);
+          productService.deleteProduct(itemId);
         })
       )
         .then(() => {
@@ -74,7 +74,7 @@ export const ManageItems = ({ title }) => {
   };
 
   const handleEditConfirm = () => {
-    storeService
+    productService
       .editProduct(editedItem)
       .then(response => {
         setItems(prevItems => {
@@ -99,7 +99,7 @@ export const ManageItems = ({ title }) => {
 
   const handleAddConfirm = () => {
     // TODO: in response we need to get full category object
-    storeService
+    productService
       .addProduct(newItem)
       .then(response => {
         // console.log(response);
@@ -141,7 +141,6 @@ export const ManageItems = ({ title }) => {
         open={openDeletePopup}
         handleCancel={() => setOpenDeletePopup(false)}
         handleConfirm={handleDeleteConfirm}
-        text={`Are you sure you want to delete the following items?`}
         checked={checkedIds}
       />
       <EditItemPopup

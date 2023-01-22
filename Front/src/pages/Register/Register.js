@@ -4,6 +4,7 @@ import { emailRegex, mobilePhoneRegex } from "../../constants";
 import { Grid, TextField, Link, Box, Typography } from "@mui/material";
 import { StyledAlert, StyledAvatar, StyledBoxRoot, StyledButtom } from "./Register.style";
 import firebaseService from "../../services/firebaseService";
+import { useNavigate  } from 'react-router-dom';
 
 const nameTextFields = [
   {
@@ -54,6 +55,7 @@ const textFields = [
 
 export const Register = () => {
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   const validateValues = data => {
     if (!data["firstName"].length || !data["lastName"].length) {
@@ -97,6 +99,9 @@ export const Register = () => {
         const registeredUser = await firebaseService.registerUser(data.email, data.password);
         console.log("registeredUser");
         console.log(registeredUser);
+        await firebaseService.setUserFullName(registeredUser?.idToken, `${data.firstName} ${data.lastName}`)
+        navigate("/login")
+
       } catch (error) {
         switch (error.response.data.error.message) {
           case "EMAIL_EXISTS":

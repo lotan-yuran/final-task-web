@@ -19,5 +19,10 @@ export const muiTheme = createTheme({
       main: "#ffffff",
       hover: grey[900]
     }
+  },
+  typography: {
+    button: {
+      textTransform: "none"
+    }
   }
 });

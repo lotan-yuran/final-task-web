@@ -32,5 +32,19 @@ export default {
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
+  },
+
+  setUserFullName: (idToken, displayName) => {
+    const body = {
+      idToken,
+      displayName
+    };
+
+    return new Promise((resolve, reject) => {
+      firebaseAxiosInstance
+        .post(`:update?key=${REACT_APP_FIREBASE_KEY}`, body)
+        .then(({ data }) => resolve(data))
+        .catch(err => reject(err));
+    });
   }
 };
