@@ -73,8 +73,8 @@ export const Login = () => {
           isAdmin
         }
 
-        console.log(user)
         setUser(user);
+        localStorage.setItem("user", JSON.stringify(user));
         navigate("/")
       } catch (error) {
         switch (error.response.data.error.message) {

@@ -1,23 +1,28 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { cartQuantityState, userState } from "../../Recoil";
 import { Link, useLocation } from "react-router-dom";
 import { SearchTextField } from "../SearchTextField";
 import { StyledTypography } from "./NavigationBar.style";
 import { AppBar, Badge, IconButton, Toolbar } from "@mui/material";
-import { AdminPanelSettings, Person, ShoppingCart } from "@mui/icons-material";
+import { AdminPanelSettings, Person, ShoppingCart, LogoutRounded } from "@mui/icons-material";
 import { useEffect } from "react";
 
 export const NavigationBar = ({ onSearch }) => {
   const location = useLocation();
   const cartQuantity = useRecoilValue(cartQuantityState);
   const user = useRecoilValue(userState);
+  const setUser = useSetRecoilState(userState);
 
   useEffect(() => {
     console.log("user")
     console.log(user)
   }, [user])
-  
 
+  const logout = () => {
+    setUser({});
+    localStorage.removeItem("user");
+  }
+  
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -45,6 +50,11 @@ export const NavigationBar = ({ onSearch }) => {
           <IconButton color="action">
             <AdminPanelSettings />
           </IconButton>
+        </Link>
+        <Link to={"/login"}>
+          <LogoutRounded onClick={logout} color="action">
+              <AdminPanelSettings />
+          </LogoutRounded>
         </Link>
       </Toolbar>
     </AppBar>
