@@ -32,7 +32,7 @@ router.get("/count-by-user", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    const orders = await Order.find({ userId });
+    const orders = await Order.find({ userId }).sort({ orderedAt: -1 });;
     res.send(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
