@@ -15,7 +15,7 @@ export const Profile = () => {
     orderService
       .getUserOrders(user.email)
       .then(data => {
-        setOrders(data);
+        setOrders(data); 
       })
       .catch(err => {
         console.error(err);
