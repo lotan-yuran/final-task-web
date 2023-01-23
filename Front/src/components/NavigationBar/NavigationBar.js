@@ -43,11 +43,13 @@ export const NavigationBar = ({ onSearch }) => {
             <Person />
           </IconButton>
         </Link>
-        <Link to={"/admin"}>
-          <IconButton color="action">
-            <AdminPanelSettings />
-          </IconButton>
-        </Link>
+        {user?.isAdmin && (
+          <Link to={"/admin"}>
+            <IconButton color="action">
+              <AdminPanelSettings />
+            </IconButton>
+          </Link>
+        )}
         <Link to={"/login"}>
           <IconButton color="action" onClick={logout}>
             <LogoutRounded />
