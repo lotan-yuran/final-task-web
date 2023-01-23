@@ -10,10 +10,10 @@ import { userState } from "./Recoil";
 
 export default function App() {
   const isAdmin = true;
+  const socket = useSocket();
+  const setUser = useSetRecoilState(userState);
   const [searchText, setSearchText] = useState("");
   const setConnectedUsers = useSetRecoilState(connectedUsersState);
-  const setUser = useSetRecoilState(userState);
-  const socket = useSocket();
 
   useEffect(() => {
     socket.onmessage = event => {

@@ -1,13 +1,14 @@
 import { Grid } from "@mui/material";
+import { useRecoilValue } from "recoil";
 import { useMemo, useState } from "react";
 import { PRICE_RANGE } from "../../constants";
-import { useRecoilValue } from "recoil";
-import { categoriesState, itemsState } from "../../Recoil";
 import { Filters, Item, ScrollTopButton } from "../../components";
+import { categoriesState, itemsState, userState } from "../../Recoil";
 
 export const Store = ({ searchText, setSearchText }) => {
   const items = useRecoilValue(itemsState);
   const categories = useRecoilValue(categoriesState);
+  const user = useRecoilValue(userState);
 
   const mappedCategories = useMemo(
     () => categories.reduce((prev, { name: categoryName }) => ({ ...prev, [categoryName]: true }), {}),
@@ -54,6 +55,7 @@ export const Store = ({ searchText, setSearchText }) => {
   return (
     <>
       <div>
+        {user?.name && <p>Hello {`${user?.name}`}</p>}
         <Filters
           priceRangeValue={priceRangeValue}
           setPriceRangeValue={setPriceRangeValue}
