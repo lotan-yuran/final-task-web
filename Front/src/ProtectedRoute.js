@@ -1,13 +1,8 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "./Recoil";
+import { Navigate, Outlet } from "react-router-dom";
 
-export const ProtectedRoute = ({ children }) => {
-  const user = useRecoilValue(userState);
-  let location = useLocation();
-
-  if (!user?.email) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+export const ProtectedRoute = ({ routeTo, authCondition, children }) => {
+  if (!authCondition) {
+    return <Navigate to={routeTo} replace />;
   }
-  return children;
+  return children ? children : <Outlet />;
 };
