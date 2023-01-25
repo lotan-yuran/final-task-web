@@ -40,8 +40,14 @@ const textFields = [
     label: "Price",
     required: true,
     type: "number",
-    inputProps: {
-      min: 0.00002,
+    InputProps: {
+      inputProps: { min: 0 },
+      type: "number",
+      onKeyPress: event => {
+        if (event.key === "-") {
+          event.preventDefault();
+        }
+      },
       startAdornment: <InputAdornment position="start">$</InputAdornment>
     }
   }
@@ -103,7 +109,7 @@ export const EditItemPopup = ({
         </Alert>
       )}
       <DialogContent>
-        {textFields.map(({ field, id, label, type, inputProps, autoFocus, required }) => {
+        {textFields.map(({ field, id, label, type, InputProps, autoFocus, required }) => {
           const value = editedItem?.[field];
           const valueTrimLength = value?.toString().trim().length;
 
@@ -117,7 +123,7 @@ export const EditItemPopup = ({
               required={required}
               autoFocus={autoFocus}
               fullWidth
-              InputProps={inputProps}
+              InputProps={InputProps}
               error={valueTrimLength === 0}
               helperText={!valueTrimLength ? `${label} is required` : " "}
               onChange={e => handleChange(e, field)}

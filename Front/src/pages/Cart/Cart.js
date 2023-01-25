@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CartItem, UserDetailsPopup } from "../../components";
 import { Typography, Grid, Button } from "@mui/material";
 import { StyledPaper, StyledGridContainer } from "./Cart.style";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { cartItemsState } from "../../Recoil";
 import orderService from "../../services/orderService";
+import { userDetailsSelector } from "../../Recoil";
 
 export const Cart = () => {
   const [cartItems, setCartItems] = useRecoilState(cartItemsState);
   const [openPopup, setOpenPopup] = useState(false);
   const [userDetails, setUserDetails] = useState({});
+  const user = useRecoilValue(userDetailsSelector);
+
+  useEffect(() => {
+    setUserDetails(user);
+  }, [user]);
 
   const totalPrice = cartItems
     .reduce(
@@ -44,8 +50,8 @@ export const Cart = () => {
   };
 
   const onClickBuyHandler = () => {
-    // Order is an array of cart items id's
-    const products = cartItems.map(cartItem => cartItem._id);
+    // Order product is an array of cart item's id and quantity
+    const products = cartItems.map(cartItem => ({ product: cartItem._id, quantity: cartItem.quantity }));
 
     orderService
       .addOrder({ products, ...userDetails })
@@ -62,7 +68,7 @@ export const Cart = () => {
 
   const handleClosePopup = () => {
     setOpenPopup(false);
-    setUserDetails({});
+    setUserDetails(user);
   };
 
   return (
