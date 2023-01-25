@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { itemsState, categoriesState } from "../../Recoil";
-import { List } from "@mui/material";
 import { DeleteConfirmPopup, EditItemPopup, AddItemPopup } from "../../components";
+import { StyledList } from "./ManageItems.style";
 import { ManageHeader } from "./ManageHeader";
 import { ManageListItem } from "./ManageListItem";
 import productService from "../../services/productService";
@@ -118,7 +118,7 @@ export const ManageItems = ({ title }) => {
   return (
     <>
       <ManageHeader title={title} setOpenAddPopup={setOpenAddPopup} setOpenDeletePopup={setOpenDeletePopup} />
-      <List dense sx={{ bgcolor: "background.paper" }}>
+      <StyledList dense>
         {items.map((item, index) => {
           return (
             <ManageListItem
@@ -130,7 +130,7 @@ export const ManageItems = ({ title }) => {
             />
           );
         })}
-      </List>
+      </StyledList>
       <DeleteConfirmPopup
         open={openDeletePopup}
         handleCancel={() => setOpenDeletePopup(false)}

@@ -33,6 +33,7 @@ export const CartItem = ({
                 Price: {price}$
               </Typography>
               <QuantityButton
+                size="small"
                 quantity={quantity}
                 handleIncrement={() => handleIncrement(_id)}
                 handleDecrement={() => handleDecrement(_id)}

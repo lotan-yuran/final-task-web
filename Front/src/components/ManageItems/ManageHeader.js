@@ -7,7 +7,7 @@ export const ManageHeader = ({ title, setOpenAddPopup, setOpenDeletePopup }) => 
   return (
     <StyledBoxWrapper>
       <Box>
-        <Typography component="span" variant="body2" color="text.primary" fontWeight="bold">
+        <Typography component="span" variant="h4" color="text.primary" fontWeight="bold">
           {title}
         </Typography>
       </Box>
