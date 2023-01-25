@@ -1,11 +1,11 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { cartQuantityState, userState } from "../../Recoil";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { SearchTextField } from "../SearchTextField";
 import { StyledTypography } from "./NavigationBar.style";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { cartQuantityState, userState } from "../../Recoil";
 import { AppBar, Badge, IconButton, Toolbar } from "@mui/material";
 import { AdminPanelSettings, Person, ShoppingCart, LogoutRounded } from "@mui/icons-material";
-import { useEffect } from "react";
 
 export const NavigationBar = ({ onSearch }) => {
   const location = useLocation();
@@ -14,24 +14,21 @@ export const NavigationBar = ({ onSearch }) => {
   const setUser = useSetRecoilState(userState);
 
   useEffect(() => {
-    console.log("user")
-    console.log(user)
-  }, [user])
+    console.log("user");
+    console.log(user);
+  }, [user]);
 
   const logout = () => {
     setUser({});
     localStorage.removeItem("user");
-  }
-  
+  };
+
   return (
     <AppBar position="sticky">
       <Toolbar>
         <StyledTypography variant="h5" component={Link} to={"/"}>
-          Store 
+          Store
         </StyledTypography>
-
-        {user?.name &&<span>hello {`${user?.name}    `}</span>}
-
         {location.pathname === "/" && <SearchTextField onSearch={onSearch} />}
 
         <Link to={"/cart"}>
@@ -46,15 +43,17 @@ export const NavigationBar = ({ onSearch }) => {
             <Person />
           </IconButton>
         </Link>
-        <Link to={"/admin"}>
-          <IconButton color="action">
-            <AdminPanelSettings />
-          </IconButton>
-        </Link>
-        <Link to={"/login"}>
-          <LogoutRounded onClick={logout} color="action">
+        {user?.isAdmin && (
+          <Link to={"/admin"}>
+            <IconButton color="action">
               <AdminPanelSettings />
-          </LogoutRounded>
+            </IconButton>
+          </Link>
+        )}
+        <Link to={"/login"}>
+          <IconButton color="action" onClick={logout}>
+            <LogoutRounded />
+          </IconButton>
         </Link>
       </Toolbar>
     </AppBar>

@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { emailRegex } from "../../constants";
+import { useNavigate } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
-import { emailRegex, mobilePhoneRegex } from "../../constants";
+import firebaseService from "../../services/firebaseService";
 import { Grid, TextField, Link, Box, Typography } from "@mui/material";
 import { StyledAlert, StyledAvatar, StyledBoxRoot, StyledButtom } from "./Register.style";
-import firebaseService from "../../services/firebaseService";
-import { useNavigate  } from 'react-router-dom';
 
 const nameTextFields = [
   {
@@ -26,14 +26,6 @@ const nameTextFields = [
 ];
 
 const textFields = [
-  {
-    required: true,
-    fullWidth: true,
-    name: "phone",
-    label: "Mobile Phone",
-    type: "phone",
-    id: "phone"
-  },
   {
     required: true,
     fullWidth: true,
@@ -63,11 +55,6 @@ export const Register = () => {
       return false;
     }
 
-    if (!data["phone"].match(mobilePhoneRegex)) {
-      setError("Invalid phone number!");
-      return false;
-    }
-
     if (!data["email"].match(emailRegex)) {
       setError("Invalid email address!");
       return false;
@@ -75,6 +62,11 @@ export const Register = () => {
 
     if (!data["password"].length) {
       setError("Missing password!");
+      return false;
+    }
+
+    if (data["password"].length < 6) {
+      setError("Weak password! Password should be at least 6 characters");
       return false;
     }
 
@@ -99,9 +91,8 @@ export const Register = () => {
         const registeredUser = await firebaseService.registerUser(data.email, data.password);
         console.log("registeredUser");
         console.log(registeredUser);
-        await firebaseService.setUserFullName(registeredUser?.idToken, `${data.firstName} ${data.lastName}`)
-        navigate("/login")
-
+        await firebaseService.setUserFullName(registeredUser?.idToken, `${data.firstName} ${data.lastName}`);
+        navigate("/login");
       } catch (error) {
         switch (error.response.data.error.message) {
           case "EMAIL_EXISTS":
