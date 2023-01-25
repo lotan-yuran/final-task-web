@@ -1,5 +1,5 @@
 import { Grid, Paper } from "@mui/material";
-import { ManageItems, OrdersLineChart, OrdersBarChart, LiveData } from "../../components";
+import { ManageItems, OrdersBarChart, LiveData } from "../../components";
 
 export const Admin = () => {
   return (
@@ -15,7 +15,7 @@ export const Admin = () => {
             <LiveData />
           </Paper>
           <Paper elevation={2} sx={{ p: 2, my: 2 }}>
-            <OrdersLineChart />
+            {/* <OrdersLineChart /> */}
             <OrdersBarChart />
           </Paper>
         </Grid>
