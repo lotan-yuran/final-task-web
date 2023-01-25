@@ -29,12 +29,14 @@ const textFields = [
     label: "Price",
     required: true,
     type: "number",
-    inputProps: {
-      min: 0
-      //   inputMode: "numeric",
-      //   pattern: "[0-9]*",
-    },
-    extraProps: {
+    InputProps: {
+      inputProps: { min: 0 },
+      type: "number",
+      onKeyPress: event => {
+        if (event.key === "-") {
+          event.preventDefault();
+        }
+      },
       startAdornment: <InputAdornment position="start">$</InputAdornment>
     }
   },
@@ -101,10 +103,9 @@ export const AddItemPopup = ({ open, item, setItem, handleCancel, handleConfirm,
         </Alert>
       )}
       <DialogContent>
-        {textFields.map(({ field, label, type, autoFocus, required, inputProps, extraProps }) => {
+        {textFields.map(({ field, label, type, autoFocus, required, InputProps }) => {
           const value = item?.[field];
           const valueTrimLength = value?.toString().trim().length;
-
           return (
             <StyledTextField
               key={field}
@@ -114,8 +115,7 @@ export const AddItemPopup = ({ open, item, setItem, handleCancel, handleConfirm,
               required={required}
               autoFocus={autoFocus}
               fullWidth
-              inputProps={inputProps}
-              InputProps={extraProps}
+              InputProps={InputProps}
               error={valueTrimLength === 0}
               onChange={e => handleChange(e, field)}
             />
