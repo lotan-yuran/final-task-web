@@ -7,7 +7,7 @@ import { useSocket } from "./socket/SocketHook";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Store, Cart, Login, Admin, Register, Profile, Product } from "./pages";
-import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router, Outlet, Navigate } from "react-router-dom";
 
 export default function App() {
   const socket = useSocket();
@@ -53,7 +53,7 @@ export default function App() {
   );
 
   const ProtectedLoginRoute = ({ children }) => (
-    <ProtectedRoute routeTo={"/"} authCondition={user?.email}>
+    <ProtectedRoute routeTo={"/login"} authCondition={user?.email}>
       {children}
     </ProtectedRoute>
   );
@@ -67,7 +67,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/" element={<Navigate replace to="/login" />} /> */}
+        <Route path="/" element={<Navigate replace to="/login" />} />
 
         <Route element={<LayoutNavbar />}>
           <Route element={<ProtectedLoginRoute />}>
@@ -85,9 +85,8 @@ export default function App() {
             }
           />
         </Route>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* </Route> */}
       </Routes>
     </Router>
   );

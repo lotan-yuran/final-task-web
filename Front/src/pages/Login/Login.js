@@ -124,7 +124,7 @@ export const Login = () => {
             <Grid container>
               <Grid item>
                 <Link href="/register" variant="body2">
-                  Dont have an account? Register
+                  {"Don't have an account? Register"}
                 </Link>
               </Grid>
             </Grid>

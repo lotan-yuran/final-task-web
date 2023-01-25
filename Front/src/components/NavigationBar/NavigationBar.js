@@ -50,7 +50,7 @@ export const NavigationBar = ({ onSearch }) => {
             </IconButton>
           </Link>
         )}
-        <Link to={"/"}>
+        <Link to={"/login"}>
           <IconButton color="action" onClick={logout}>
             <LogoutRounded />
           </IconButton>
