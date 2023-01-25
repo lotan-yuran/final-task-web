@@ -64,6 +64,15 @@ wss.on("connection", (ws) => {
   });
 
   ws.on("message", (message) => {
+    // Handle force change of connected clients number
+    if (message.toString() === "increment") {
+      connectedClients++;
+    }
+    if (message.toString() === "decrement") {
+      connectedClients--;
+    }
+
+    // Send update to all users
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(connectedClients);
