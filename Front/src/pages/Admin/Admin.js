@@ -1,5 +1,5 @@
 import { Grid, Paper } from "@mui/material";
-import { ManageItems, OrdersLineChart, OrdersBarChart, LiveData } from "../../components";
+import { ManageItems, OrdersBarChart, LiveData } from "../../components";
 
 export const Admin = () => {
   return (

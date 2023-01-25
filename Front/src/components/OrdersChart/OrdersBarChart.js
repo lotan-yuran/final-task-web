@@ -6,11 +6,7 @@ export const OrdersBarChart = () => {
   const [ordersCountByUser, setOrdersCountByUser] = useState([]);
 
   useEffect(() => {
-    orderService.getOrdersCountByUser().then(data => {
-      console.log("data");
-      console.log(data);
-      setOrdersCountByUser(data);
-    });
+    orderService.getOrdersCountByUser().then(data => setOrdersCountByUser(data));
   }, []);
 
   return (
