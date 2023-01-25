@@ -9,10 +9,13 @@ const textFields = [
   {
     field: "phone",
     type: "number"
+  },
+  {
+    field: "address"
   }
 ];
 
-export const UserDetailsPopup = ({ open, onOrder, handleClose, setUserDetails }) => {
+export const UserDetailsPopup = ({ open, onOrder, handleClose, setUserDetails, userDetails }) => {
   const handleChange = (e, field) => {
     const val = e.target.value;
     setUserDetails(prev => ({ ...prev, [field]: val }));
@@ -24,7 +27,13 @@ export const UserDetailsPopup = ({ open, onOrder, handleClose, setUserDetails })
       <StyledList>
         {textFields.map(({ field, type }, index) => (
           <ListItem key={index}>
-            <TextField type={type} label={field} variant="standard" onChange={e => handleChange(e, field)} />
+            <TextField
+              type={type}
+              value={userDetails?.[field]}
+              label={field}
+              variant="standard"
+              onChange={e => handleChange(e, field)}
+            />
           </ListItem>
         ))}
         <ListItem>
