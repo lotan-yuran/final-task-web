@@ -44,16 +44,10 @@ export const ManageItems = ({ title }) => {
     if (checkedIds.length === 0) {
       alert("No products have been selected for deletion");
     } else {
-      const itemIdsToDelete = new Set(checkedIds);
+      Promise.all(checkedIds.map(itemId => productService.deleteProduct(itemId)))
+        .then(itemsToDelete => {
+          const itemIdsToDelete = new Set(itemsToDelete.map(item => item._id));
 
-      Promise.all(
-        checkedIds.map(itemId => {
-          productService.deleteProduct(itemId);
-        })
-      )
-        .then(() => {
-          // TODO: need response value from db
-          // console.log(values);
           setItems(prevItems => {
             return prevItems.filter(item => {
               // return those items that their id not in the itemIdsToDelete
