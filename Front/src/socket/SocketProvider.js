@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }) => {
       // Reconnect after a delay
       setTimeout(() => {
         setSocket(new WebSocket(WEBSOCKET_URL));
-      }, 5000);
+      }, 1000);
     };
   }, [socket]);
   return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;

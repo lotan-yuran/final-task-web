@@ -21,14 +21,18 @@ export default function App() {
       setConnectedUsers(connectedUsers);
     };
 
-    // Send a messege to the server
-    socket.send("connected!");
+    socket.onopen = () => {
+      if (user.email) {
+        // Send a messege to the server
+        socket.send("connected!");
+      }
+    };
 
     //clean up function
     return () => {
       socket.close();
     };
-  }, [socket, setConnectedUsers]);
+  }, [socket, setConnectedUsers, user]);
 
   useEffect(() => {
     //checkLoggeedIn
