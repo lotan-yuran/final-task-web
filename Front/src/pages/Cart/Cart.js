@@ -50,8 +50,8 @@ export const Cart = () => {
   };
 
   const onClickBuyHandler = () => {
-    // Order is an array of cart items id's
-    const products = cartItems.map(cartItem => cartItem._id);
+    // Order product is an array of cart item's id and quantity
+    const products = cartItems.map(cartItem => ({ product: cartItem._id, quantity: cartItem.quantity }));
 
     orderService
       .addOrder({ products, ...userDetails })
@@ -68,7 +68,7 @@ export const Cart = () => {
 
   const handleClosePopup = () => {
     setOpenPopup(false);
-    setUserDetails({});
+    setUserDetails(user);
   };
 
   return (

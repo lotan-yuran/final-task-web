@@ -57,13 +57,11 @@ export const Login = () => {
       password: form.get("password")
     };
 
-    console.log(data);
-
     if (validateValues(data)) {
       try {
         const loggedInUser = await firebaseService.loginUser(data.email, data.password);
-        console.log("loggedInUser");
-        console.log(loggedInUser);
+        // console.log("loggedInUser");
+        // console.log(loggedInUser);
         const isAdmin = await adminService.isAdmin(loggedInUser?.email);
 
         const user = {

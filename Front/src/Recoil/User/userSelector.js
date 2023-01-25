@@ -10,5 +10,8 @@ export const userSelector = selector({
 
 export const userDetailsSelector = selector({
   key: "userDetailsSelector",
-  get: ({ get }) => ({ ...get(userState), phone: "", address: "" })
+  get: ({ get }) => {
+    const { email, name } = get(userState);
+    return { userId: email, name: name, phone: "", address: "" };
+  }
 });

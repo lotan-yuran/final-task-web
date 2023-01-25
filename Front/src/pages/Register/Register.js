@@ -84,13 +84,13 @@ export const Register = () => {
       firstName: form.get("firstName")
     };
 
-    console.log(data);
+    // console.log(data);
 
     if (validateValues(data)) {
       try {
         const registeredUser = await firebaseService.registerUser(data.email, data.password);
-        console.log("registeredUser");
-        console.log(registeredUser);
+        // console.log("registeredUser");
+        // console.log(registeredUser);
         await firebaseService.setUserFullName(registeredUser?.idToken, `${data.firstName} ${data.lastName}`);
         navigate("/login");
       } catch (error) {
