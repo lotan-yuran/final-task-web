@@ -26,10 +26,10 @@ export const NavigationBar = ({ onSearch }) => {
   return (
     <AppBar position="sticky">
       <Toolbar>
-        <StyledTypography variant="h5" component={Link} to={"/"}>
+        <StyledTypography variant="h5" component={Link} to={"/store"}>
           Store
         </StyledTypography>
-        {location.pathname === "/" && <SearchTextField onSearch={onSearch} />}
+        {location.pathname === "/store" && <SearchTextField onSearch={onSearch} />}
 
         <Link to={"/cart"}>
           <IconButton color="action">

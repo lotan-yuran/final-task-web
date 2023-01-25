@@ -5,14 +5,13 @@ import { NavigationBar } from "./components";
 import { connectedUsersState } from "./Recoil";
 import { useSocket } from "./socket/SocketHook";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Store, Cart, Login, Admin, Register, Profile, Product } from "./pages";
-import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router, Outlet, Navigate } from "react-router-dom";
 
 export default function App() {
   const socket = useSocket();
-  const user = useRecoilValue(userState);
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
   const [searchText, setSearchText] = useState("");
   const setConnectedUsers = useSetRecoilState(connectedUsersState);
 
@@ -31,17 +30,14 @@ export default function App() {
     };
   }, [socket, setConnectedUsers]);
 
-  const checkLoggeedIn = () => {
+  useEffect(() => {
+    //checkLoggeedIn
     const userL = localStorage.getItem("user");
     if (userL) {
       const jsonUser = JSON.parse(userL);
       setUser(jsonUser);
     }
-  };
-
-  useEffect(() => {
-    checkLoggeedIn();
-  }, []);
+  }, [setUser]);
 
   const onSearch = value => {
     setSearchText(value);
@@ -63,7 +59,7 @@ export default function App() {
   );
 
   const ProtectedAdminRoute = ({ children }) => (
-    <ProtectedRoute routeTo={"/"} authCondition={user?.isAdmin}>
+    <ProtectedRoute routeTo={"/store"} authCondition={user?.isAdmin}>
       {children}
     </ProtectedRoute>
   );
@@ -71,9 +67,11 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LayoutNavbar />}>
+        <Route path="/" element={<Navigate replace to="/login" />} />
+
+        <Route element={<LayoutNavbar />}>
           <Route element={<ProtectedLoginRoute />}>
-            <Route path="/" element={<Store searchText={searchText} setSearchText={setSearchText} />} />
+            <Route path="/store" element={<Store searchText={searchText} setSearchText={setSearchText} />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/Product/:id" element={<Product />} />
