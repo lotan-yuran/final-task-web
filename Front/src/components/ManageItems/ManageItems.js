@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { itemsState, categoriesState } from "../../Recoil";
-import { List } from "@mui/material";
 import { DeleteConfirmPopup, EditItemPopup, AddItemPopup } from "../../components";
+import { StyledList } from "./ManageItems.style";
 import { ManageHeader } from "./ManageHeader";
 import { ManageListItem } from "./ManageListItem";
 import productService from "../../services/productService";
@@ -44,16 +44,10 @@ export const ManageItems = ({ title }) => {
     if (checkedIds.length === 0) {
       alert("No products have been selected for deletion");
     } else {
-      const itemIdsToDelete = new Set(checkedIds);
+      Promise.all(checkedIds.map(itemId => productService.deleteProduct(itemId)))
+        .then(itemsToDelete => {
+          const itemIdsToDelete = new Set(itemsToDelete.map(item => item._id));
 
-      Promise.all(
-        checkedIds.map(itemId => {
-          productService.deleteProduct(itemId);
-        })
-      )
-        .then(() => {
-          // TODO: need response value from db
-          // console.log(values);
           setItems(prevItems => {
             return prevItems.filter(item => {
               // return those items that their id not in the itemIdsToDelete
@@ -124,7 +118,7 @@ export const ManageItems = ({ title }) => {
   return (
     <>
       <ManageHeader title={title} setOpenAddPopup={setOpenAddPopup} setOpenDeletePopup={setOpenDeletePopup} />
-      <List dense sx={{ bgcolor: "background.paper" }}>
+      <StyledList dense>
         {items.map((item, index) => {
           return (
             <ManageListItem
@@ -136,7 +130,7 @@ export const ManageItems = ({ title }) => {
             />
           );
         })}
-      </List>
+      </StyledList>
       <DeleteConfirmPopup
         open={openDeletePopup}
         handleCancel={() => setOpenDeletePopup(false)}

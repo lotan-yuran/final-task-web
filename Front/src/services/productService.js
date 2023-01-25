@@ -33,9 +33,10 @@ export default {
   },
 
   editProduct: product => {
+    const editedProduct = { ...product, categoryId: product.category._id };
     return new Promise((resolve, reject) => {
       productAxiosInstance
-        .put(`/${product._id}`, product)
+        .put(`/${product._id}`, editedProduct)
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
