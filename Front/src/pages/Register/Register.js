@@ -92,7 +92,7 @@ export const Register = () => {
         console.log("registeredUser");
         console.log(registeredUser);
         await firebaseService.setUserFullName(registeredUser?.idToken, `${data.firstName} ${data.lastName}`);
-        navigate("/login");
+        navigate("/");
       } catch (error) {
         switch (error.response.data.error.message) {
           case "EMAIL_EXISTS":
@@ -154,7 +154,7 @@ export const Register = () => {
         </StyledButtom>
         <Grid container>
           <Grid item>
-            <Link href="/login" variant="body2">
+            <Link href="/" variant="body2">
               Already have an account? Sign in
             </Link>
           </Grid>

@@ -1,13 +1,13 @@
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { userState } from "../../Recoil";
+import { Navigate } from "react-router-dom";
 import { emailRegex } from "../../constants";
 import { LockOutlined } from "@mui/icons-material";
+import adminService from "../../services/adminService";
+import firebaseService from "../../services/firebaseService";
 import { Grid, TextField, Link, Box, Typography } from "@mui/material";
 import { StyledAlert, StyledAvatar, StyledBoxRoot, StyledButtom } from "./Login.style";
-import firebaseService from "../../services/firebaseService";
-import adminService from "../../services/adminService";
-import { useSetRecoilState } from "recoil";
-import { userState } from "../../Recoil";
-import { useNavigate  } from 'react-router-dom';
 
 const textFields = [
   {
@@ -33,8 +33,7 @@ const textFields = [
 
 export const Login = () => {
   const [error, setError] = useState(false);
-  const navigate = useNavigate();
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
 
   const validateValues = data => {
     if (!data["email"].match(emailRegex)) {
@@ -71,11 +70,10 @@ export const Login = () => {
           name: loggedInUser?.displayName,
           email: loggedInUser?.email,
           isAdmin
-        }
+        };
 
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
-        navigate("/")
       } catch (error) {
         switch (error.response.data.error.message) {
           case "INVALID_PASSWORD":
@@ -87,7 +85,7 @@ export const Login = () => {
           default:
             setError("A problem occurred in login process! :(");
             break;
-        }   
+        }
       }
     }
 
@@ -97,37 +95,43 @@ export const Login = () => {
   };
 
   return (
-    <StyledBoxRoot>
-      <StyledAvatar>
-        <LockOutlined />
-      </StyledAvatar>
-      <Typography component="h1" variant="h5">
-        Log in
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate>
-        {textFields.map(({ id, margin, required, name, label, type, fullWidth }) => (
-          <TextField
-            key={id}
-            name={name}
-            type={type}
-            label={label}
-            margin={margin}
-            required={required}
-            fullWidth={fullWidth}
-          />
-        ))}
-        <StyledButtom type="submit" fullWidth variant="contained">
-          Log In
-        </StyledButtom>
-        <Grid container>
-          <Grid item>
-            <Link href="/register" variant="body2">
-              Dont have an account? Register
-            </Link>
-          </Grid>
-        </Grid>
-      </Box>
-      {error && <StyledAlert severity="error">{error} </StyledAlert>}
-    </StyledBoxRoot>
+    <>
+      {user?.email ? (
+        <Navigate to={"/store"} />
+      ) : (
+        <StyledBoxRoot>
+          <StyledAvatar>
+            <LockOutlined />
+          </StyledAvatar>
+          <Typography component="h1" variant="h5">
+            Log in
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate>
+            {textFields.map(({ id, margin, required, name, label, type, fullWidth }) => (
+              <TextField
+                key={id}
+                name={name}
+                type={type}
+                label={label}
+                margin={margin}
+                required={required}
+                fullWidth={fullWidth}
+              />
+            ))}
+            <StyledButtom type="submit" fullWidth variant="contained">
+              Log In
+            </StyledButtom>
+            <Grid container>
+              <Grid item>
+                <Link href="/register" variant="body2">
+                  Dont have an account? Register
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+          {error && <StyledAlert severity="error">{error} </StyledAlert>}
+        </StyledBoxRoot>
+      )}
+    </>
   );
 };
