@@ -1,49 +1,23 @@
+import { useEffect, useState } from "react";
 import { CartesianGrid, Legend, Tooltip, XAxis, YAxis, BarChart, Bar } from "recharts";
+import orderService from "../../services/orderService";
 
 export const OrdersBarChart = () => {
-  const data = [
-    {
-      _id: "1",
-      name: "Product A",
-      totalSales: 4000
-    },
-    {
-      _id: "2",
-      name: "Product B",
-      totalSales: 3000
-    },
-    {
-      _id: "3",
-      name: "Product C",
-      totalSales: 2000
-    },
-    {
-      _id: "4",
-      name: "Product D",
-      totalSales: 2780
-    },
-    {
-      _id: "5",
-      name: "Product E",
-      totalSales: 1890
-    },
-    {
-      _id: "6",
-      name: "Product F",
-      totalSales: 2390
-    },
-    {
-      _id: "7",
-      name: "Product G",
-      totalSales: 3490
-    }
-  ];
+  const [ordersCountByUser, setOrdersCountByUser] = useState([]);
+
+  useEffect(() => {
+    orderService.getOrdersCountByUser().then(data => {
+      console.log("data");
+      console.log(data);
+      setOrdersCountByUser(data);
+    });
+  }, []);
 
   return (
     <BarChart
       width={730}
-      height={300}
-      data={data}
+      height={400}
+      data={ordersCountByUser}
       margin={{
         top: 20,
         right: 30,
@@ -52,11 +26,11 @@ export const OrdersBarChart = () => {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
+      <XAxis dataKey="userId" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="totalSales" fill="#8884d8" barSize={20} />
+      <Bar dataKey="numOfOrders" fill="#8884d8" barSize={20} />
     </BarChart>
   );
 };

@@ -15,7 +15,7 @@ export const Admin = () => {
             <LiveData />
           </Paper>
           <Paper elevation={2} sx={{ p: 2, my: 2 }}>
-            <OrdersLineChart />
+            {/* <OrdersLineChart /> */}
             <OrdersBarChart />
           </Paper>
         </Grid>

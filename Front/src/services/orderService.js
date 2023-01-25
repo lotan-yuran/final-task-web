@@ -29,5 +29,14 @@ export default {
         .then(({ data }) => resolve(data))
         .catch(err => reject(err));
     });
+  },
+
+  getOrdersCountByUser: () => {
+    return new Promise((resolve, reject) => {
+      orderAxiosInstance
+        .get(`/count-by-user`)
+        .then(({ data }) => resolve(data))
+        .catch(err => reject(err));
+    });
   }
 };
