@@ -19,7 +19,7 @@ export const OrdersBarChart = ({ title }) => {
           </Typography>
         </Grid>
         <Grid item xs={10}>
-          <ResponsiveContainer width="100%" height={600}>
+          <ResponsiveContainer width="100%" height={700}>
             <BarChart
               data={ordersCountByUser}
               margin={{

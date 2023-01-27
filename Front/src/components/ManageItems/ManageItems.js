@@ -6,6 +6,7 @@ import { StyledList } from "./ManageItems.style";
 import { ManageHeader } from "./ManageHeader";
 import { ManageListItem } from "./ManageListItem";
 import productService from "../../services/productService";
+import { Grid } from "@mui/material";
 
 export const ManageItems = ({ title }) => {
   const [items, setItems] = useRecoilState(itemsState);
@@ -115,20 +116,30 @@ export const ManageItems = ({ title }) => {
 
   return (
     <>
-      <ManageHeader title={title} setOpenAddPopup={setOpenAddPopup} setOpenDeletePopup={setOpenDeletePopup} />
-      <StyledList dense>
-        {items.map((item, index) => {
-          return (
-            <ManageListItem
-              key={index}
-              item={item}
-              handleEditItem={handleClickEditItem}
-              handleCheck={handleClickCheckItem}
-              isChecked={isChecked}
-            />
-          );
-        })}
-      </StyledList>
+      <Grid container spacing={2} direction="column">
+        <Grid item xs={4}>
+          <ManageHeader
+            title={title}
+            setOpenAddPopup={setOpenAddPopup}
+            setOpenDeletePopup={setOpenDeletePopup}
+          />
+        </Grid>
+        <Grid item xs={8}>
+          <StyledList dense>
+            {items.map((item, index) => {
+              return (
+                <ManageListItem
+                  key={index}
+                  item={item}
+                  handleEditItem={handleClickEditItem}
+                  handleCheck={handleClickCheckItem}
+                  isChecked={isChecked}
+                />
+              );
+            })}
+          </StyledList>
+        </Grid>
+      </Grid>
       <DeleteConfirmPopup
         open={openDeletePopup}
         handleCancel={() => setOpenDeletePopup(false)}
