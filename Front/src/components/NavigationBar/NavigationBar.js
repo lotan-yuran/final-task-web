@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { SearchTextField } from "../SearchTextField";
 import { StyledTypography } from "./NavigationBar.style";
@@ -12,11 +11,6 @@ export const NavigationBar = ({ onSearch }) => {
   const cartQuantity = useRecoilValue(cartQuantityState);
   const user = useRecoilValue(userState);
   const setUser = useSetRecoilState(userState);
-
-  useEffect(() => {
-    console.log("user");
-    console.log(user);
-  }, [user]);
 
   const logout = () => {
     setUser({});

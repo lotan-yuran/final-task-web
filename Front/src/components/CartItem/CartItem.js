@@ -4,7 +4,10 @@ import { QuantityButton } from "../QuantityButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export const CartItem = ({
-  cartItem: { name, price, imageURL, description, _id, quantity },
+  cartItem: {
+    product: { name, price, imageURL, description, _id },
+    quantity
+  },
   handleIncrement,
   handleDecrement,
   handleDelete

@@ -46,7 +46,7 @@ export const UserDetailsPopup = ({ open, onOrder, handleClose, setUserDetails, u
     }
   };
 
-  function checkNotEmpty(data) {
+  function checkIfEmpty(data) {
     return Object.values(textFields).some(({ field, required }) => required && data?.[field] === "");
   }
 
@@ -56,7 +56,7 @@ export const UserDetailsPopup = ({ open, onOrder, handleClose, setUserDetails, u
       return false;
     }
 
-    if (checkNotEmpty(data)) {
+    if (checkIfEmpty(data)) {
       setError("All the fields are required!");
       return false;
     }

@@ -92,11 +92,9 @@ export const ManageItems = ({ title }) => {
   };
 
   const handleAddConfirm = () => {
-    // TODO: in response we need to get full category object
     productService
       .addProduct(newItem)
       .then(response => {
-        // console.log(response);
         setItems(prevItems => [...prevItems, response]);
         alert("The product has been successfully added to DB");
       })
