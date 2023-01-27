@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { SearchTextField } from "../SearchTextField";
 import { StyledTypography } from "./NavigationBar.style";
