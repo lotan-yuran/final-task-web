@@ -1,38 +1,54 @@
-import { useSetRecoilState } from "recoil";
-import { cartItemsState } from "../../Recoil";
 import { useLocation } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import cartService from "../../services/cartService";
 import { Box, Button, CardMedia, Grid } from "@mui/material";
+import { cartItemsState, userDetailsSelector } from "../../Recoil";
 
 export const Product = () => {
   const location = useLocation();
   const { product } = location.state;
-
   const { name, price, imageURL, description, _id } = product;
 
-  const setCartItems = useSetRecoilState(cartItemsState);
+  const user = useRecoilValue(userDetailsSelector);
+  const [cartItems, setCartItems] = useRecoilState(cartItemsState);
 
   const addItemToCart = () => {
-    setCartItems(prevCartItem => {
-      const existingItem = prevCartItem.find(item => {
-        return product._id === item._id;
+    const updatedProducts = newItem => {
+      const existingItem = cartItems.find(({ product }) => {
+        return newItem._id === product._id;
       });
 
       // If already exists increase quantity
       if (existingItem) {
-        return prevCartItem.map(item => {
-          if (product._id === item._id) {
+        return cartItems.map(item => {
+          const { product, quantity } = item;
+          if (newItem._id === product._id) {
             return {
-              ...item,
+              product: product._id,
               quantity: item.quantity + 1
             };
           }
-          return item;
+          return {
+            product: product._id,
+            quantity: quantity
+          };
         });
       } else {
         // Add new item into the cart
-        return prevCartItem.concat({ ...product, quantity: 1 });
+        return [...cartItems].concat({ product: newItem._id, quantity: 1 });
       }
-    });
+    };
+
+    cartService
+      .updateCart(user?.email, updatedProducts(product))
+      .then(data => {
+        setCartItems(data);
+        alert("The product has been successfully added to cart DB");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("The order failed");
+      });
   };
 
   return (

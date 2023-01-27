@@ -4,24 +4,28 @@ const router = express.Router();
 // Models
 const Cart = require("../models/cart");
 
-// Routes
+const getFullCartBuUser = async (userId) => {
+  let cart = await Cart.findOne({ userId });
 
+  if (!cart) {
+    return [];
+  }
+
+  cart = await cart.populate("products.product");
+  const activeProducts = cart.products.filter(
+    (item) => item.product.isActive === true
+  );
+
+  return activeProducts;
+};
+
+// Routes
 // Get cart by user id
 router.get("/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    let cart = await Cart.findOne({ userId });
-
-    if (!cart) {
-      res.send([]);
-      return;
-    }
-
-    cart = await cart.populate("products.product");
-    const activeProducts = cart.products.filter(
-      (item) => item.product.isActive === true
-    );
-    res.send(activeProducts);
+    const fullCart = await getFullCartBuUser(userId);
+    res.send(fullCart);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -40,7 +44,9 @@ router.put("/:userId", async (req, res) => {
       await Cart.create({ userId, products });
     }
 
-    res.send("Updated");
+    // get the updated cart and send it back to user
+    const fullCart = await getFullCartBuUser(userId);
+    res.send(fullCart);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

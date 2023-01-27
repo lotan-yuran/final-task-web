@@ -13,11 +13,6 @@ export const NavigationBar = ({ onSearch }) => {
   const user = useRecoilValue(userState);
   const setUser = useSetRecoilState(userState);
 
-  useEffect(() => {
-    console.log("user");
-    console.log(user);
-  }, [user]);
-
   const logout = () => {
     setUser({});
     localStorage.removeItem("user");

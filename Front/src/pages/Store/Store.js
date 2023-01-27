@@ -1,12 +1,14 @@
 import { Grid } from "@mui/material";
-import { useRecoilValue } from "recoil";
 import { useMemo, useState } from "react";
 import { PRICE_RANGE } from "../../constants";
+import { useRecoilState, useRecoilValue } from "recoil";
+import cartService from "../../services/cartService";
 import { Filters, Item, ScrollTopButton } from "../../components";
-import { categoriesState, itemsState, userState } from "../../Recoil";
+import { categoriesState, itemsState, userState, cartItemsState } from "../../Recoil";
 
 export const Store = ({ searchText, setSearchText }) => {
   const items = useRecoilValue(itemsState);
+  const [cartItems, setCartItems] = useRecoilState(cartItemsState);
   const categories = useRecoilValue(categoriesState);
   const user = useRecoilValue(userState);
 
@@ -52,6 +54,45 @@ export const Store = ({ searchText, setSearchText }) => {
     setSearchText("");
   };
 
+  const addItemToCart = async newItemId => {
+    const updatedProducts = newItemId => {
+      const existingItem = cartItems.find(({ product }) => {
+        return newItemId === product._id;
+      });
+
+      // If already exists increase quantity
+      if (existingItem) {
+        return cartItems.map(item => {
+          const { product, quantity } = item;
+          if (newItemId === product._id) {
+            return {
+              product: product._id,
+              quantity: item.quantity + 1
+            };
+          }
+          return {
+            product: product._id,
+            quantity: quantity
+          };
+        });
+      } else {
+        // Add new item into the cart
+        return [...cartItems].concat({ product: newItemId, quantity: 1 });
+      }
+    };
+
+    cartService
+      .updateCart(user?.email, updatedProducts(newItemId))
+      .then(data => {
+        setCartItems(data);
+        alert("The product has been successfully added to cart DB");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("The order failed");
+      });
+  };
+
   return (
     <>
       <div>
@@ -68,7 +109,7 @@ export const Store = ({ searchText, setSearchText }) => {
       <Grid container spacing={4} justify="center">
         {filteredItems?.map(item => (
           <Grid key={item._id} item xs={12} sm={6} md={3}>
-            <Item item={item} />
+            <Item item={item} addItemToCart={addItemToCart} />
           </Grid>
         ))}
       </Grid>

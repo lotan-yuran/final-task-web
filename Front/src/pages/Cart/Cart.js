@@ -5,6 +5,7 @@ import { StyledPaper, StyledGridContainer } from "./Cart.style";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { cartItemsState } from "../../Recoil";
 import orderService from "../../services/orderService";
+import cartService from "../../services/cartService";
 import { userDetailsSelector } from "../../Recoil";
 
 export const Cart = () => {
@@ -19,7 +20,8 @@ export const Cart = () => {
 
   const totalPrice = cartItems
     .reduce(
-      (accumulator, currentValue) => accumulator + currentValue.quantity * parseFloat(currentValue.price),
+      (accumulator, currentValue) =>
+        accumulator + currentValue?.quantity * parseFloat(currentValue?.product.price),
       0
     )
     .toFixed(3);
@@ -33,25 +35,55 @@ export const Cart = () => {
   };
 
   const handleDelete = itemId => {
-    setCartItems(prevCartItem => {
-      return prevCartItem.filter(item => item._id !== itemId);
-    });
+    const updatedProducts = cartItems
+      .filter(({ product }) => product._id !== itemId)
+      .map(cartItem => ({ product: cartItem.product._id, quantity: cartItem.quantity }));
+
+    cartService
+      .updateCart(user?.email, updatedProducts)
+      .then(data => {
+        setCartItems(data);
+        alert("The product has been successfully added to cart DB");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("The order failed");
+      });
   };
 
   const addQuantityToItem = (itemId, addedQuantity) => {
-    setCartItems(prevCartItem => {
-      return prevCartItem.map(item => {
-        if (item._id === itemId) {
-          return { ...item, quantity: item.quantity + addedQuantity };
-        }
-        return item;
-      });
+    const updatedProducts = cartItems.map(cartItem => {
+      const { product, quantity } = cartItem;
+      if (product._id === itemId) {
+        return {
+          product: product._id,
+          quantity: quantity + addedQuantity
+        };
+      }
+      return {
+        product: product._id,
+        quantity: quantity
+      };
     });
+
+    cartService
+      .updateCart(user?.email, updatedProducts)
+      .then(data => {
+        setCartItems(data);
+        alert("The product has been successfully added to cart DB");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("The order failed");
+      });
   };
 
   const onClickBuyHandler = () => {
     // Order product is an array of cart item's id and quantity
-    const products = cartItems.map(cartItem => ({ product: cartItem._id, quantity: cartItem.quantity }));
+    const products = cartItems.map(cartItem => ({
+      product: cartItem.product._id,
+      quantity: cartItem.quantity
+    }));
 
     orderService
       .addOrder({ products, ...userDetails })
