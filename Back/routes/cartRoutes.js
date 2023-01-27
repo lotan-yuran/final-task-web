@@ -4,7 +4,7 @@ const router = express.Router();
 // Models
 const Cart = require("../models/cart");
 
-const getFullCartBuUser = async (userId) => {
+const getFullCartByUser = async (userId) => {
   let cart = await Cart.findOne({ userId });
 
   if (!cart) {
@@ -24,7 +24,7 @@ const getFullCartBuUser = async (userId) => {
 router.get("/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    const fullCart = await getFullCartBuUser(userId);
+    const fullCart = await getFullCartByUser(userId);
     res.send(fullCart);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -45,7 +45,7 @@ router.put("/:userId", async (req, res) => {
     }
 
     // get the updated cart and send it back to user
-    const fullCart = await getFullCartBuUser(userId);
+    const fullCart = await getFullCartByUser(userId);
     res.send(fullCart);
   } catch (error) {
     res.status(500).json({ message: error.message });
