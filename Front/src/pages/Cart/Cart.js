@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { CartItem, UserDetailsPopup } from "../../components";
-import { Typography, Grid, Button } from "@mui/material";
-import { StyledPaper, StyledGridContainer } from "./Cart.style";
-import { useRecoilState, useRecoilValue } from "recoil";
 import { cartItemsState } from "../../Recoil";
-import orderService from "../../services/orderService";
-import cartService from "../../services/cartService";
 import { userDetailsSelector } from "../../Recoil";
+import cartService from "../../services/cartService";
+import orderService from "../../services/orderService";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Typography, Grid, Button } from "@mui/material";
+import { CartItem, UserDetailsPopup } from "../../components";
+import { StyledPaper, StyledGridContainer } from "./Cart.style";
 
 export const Cart = () => {
   const [cartItems, setCartItems] = useRecoilState(cartItemsState);

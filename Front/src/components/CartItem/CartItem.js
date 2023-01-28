@@ -1,7 +1,7 @@
-import { Grid, Typography, Divider, IconButton } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 import { StyledCardMedia } from "./Cartitem.style";
 import { QuantityButton } from "../QuantityButton";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Grid, Typography, Divider, IconButton } from "@mui/material";
 
 export const CartItem = ({
   cartItem: {
@@ -27,9 +27,6 @@ export const CartItem = ({
               <Typography variant="body2" gutterBottom>
                 {description}
               </Typography>
-              {/* <Typography variant="body2" color="text.secondary">
-                ID: {_id}
-              </Typography> */}
             </Grid>
             <Grid item xs>
               <Typography variant="body2" component="div">
@@ -48,7 +45,7 @@ export const CartItem = ({
           </Grid>
           <Grid item>
             <IconButton size="small" aria-label="delete" edge="end" onClick={() => handleDelete(_id)}>
-              <DeleteIcon />
+              <Delete />
             </IconButton>
           </Grid>
         </Grid>

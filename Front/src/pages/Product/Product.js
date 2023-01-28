@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
 import cartService from "../../services/cartService";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { Box, Button, CardMedia, Grid } from "@mui/material";
 import { cartItemsState, userDetailsSelector } from "../../Recoil";
 
