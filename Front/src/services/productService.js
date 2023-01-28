@@ -1,6 +1,6 @@
-import { createAxiosInstance } from "../config/axiosInstance";
 // eslint-disable-next-line no-undef
 const { REACT_APP_SERVICE } = process.env;
+import { createAxiosInstance } from "../config/axiosInstance";
 const productAxiosInstance = createAxiosInstance(`${REACT_APP_SERVICE}/product`);
 
 export default {

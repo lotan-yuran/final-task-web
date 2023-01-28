@@ -7,10 +7,10 @@ import { Filters, Item, ScrollTopButton } from "../../components";
 import { categoriesState, itemsState, userState, cartItemsState } from "../../Recoil";
 
 export const Store = ({ searchText, setSearchText }) => {
-  const items = useRecoilValue(itemsState);
-  const [cartItems, setCartItems] = useRecoilState(cartItemsState);
-  const categories = useRecoilValue(categoriesState);
   const user = useRecoilValue(userState);
+  const items = useRecoilValue(itemsState);
+  const categories = useRecoilValue(categoriesState);
+  const [cartItems, setCartItems] = useRecoilState(cartItemsState);
 
   const mappedCategories = useMemo(
     () => categories.reduce((prev, { name: categoryName }) => ({ ...prev, [categoryName]: true }), {}),
