@@ -30,7 +30,7 @@ export const OrdersBarChart = ({ title }) => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="userId" angle={45} textAnchor="start" overflow={true} interval={0} />
+              <XAxis dataKey="userId" angle={45} textAnchor="start" interval={0} />
               <YAxis />
               <Tooltip />
               <Legend />
