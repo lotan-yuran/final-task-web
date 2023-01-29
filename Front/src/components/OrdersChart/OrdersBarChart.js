@@ -19,22 +19,22 @@ export const OrdersBarChart = ({ title }) => {
           </Typography>
         </Grid>
         <Grid item xs={10}>
-          <ResponsiveContainer width="100%" height={700}>
+          <ResponsiveContainer height={800}>
             <BarChart
               data={ordersCountByUser}
               margin={{
                 top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5
+                right: 60,
+                left: 10,
+                bottom: 120
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="userId" />
+              <XAxis dataKey="userId" angle={45} textAnchor="start" overflow={true} interval={0} />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="numOfOrders" fill="#8884d8" barSize={20} />
+              <Bar dataKey="numOfOrders" legendType="none" fill="#8884d8" barSize={20} />
             </BarChart>
           </ResponsiveContainer>
         </Grid>

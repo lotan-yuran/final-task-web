@@ -89,7 +89,18 @@ export const Cart = () => {
       .addOrder({ products, ...userDetails })
       .then(() => {
         alert("The order has been successfully added to DB");
-        setCartItems([]);
+        cartService
+          .updateCart(user?.email, [])
+          .then(data => {
+            console.log(data);
+            setCartItems(data);
+            alert("The cart has successfully got cleaned");
+          })
+          .catch(err => {
+            console.error(err);
+            alert("Clean cart failed");
+          });
+        // setCartItems([]);
       })
       .catch(err => {
         console.error(err);
