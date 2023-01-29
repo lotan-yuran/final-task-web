@@ -46,8 +46,8 @@ const textFields = [
 ];
 
 export const Register = () => {
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
 
   const validateValues = data => {
     if (!data["firstName"].length || !data["lastName"].length) {

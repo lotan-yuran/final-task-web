@@ -1,16 +1,16 @@
 import {
   Alert,
-  AlertTitle,
   Button,
   Dialog,
+  AlertTitle,
+  DialogTitle,
   DialogActions,
   DialogContent,
-  DialogTitle,
   InputAdornment
 } from "@mui/material";
 import { useState } from "react";
-import { StyledTextField } from "./AddItemPopup.style";
 import { SelectField } from "../../components";
+import { StyledTextField } from "./AddItemPopup.style";
 
 const textFields = [
   {
