@@ -40,7 +40,7 @@ export const Cart = () => {
       .map(cartItem => ({ product: cartItem.product._id, quantity: cartItem.quantity }));
 
     cartService
-      .updateCart(user?.email, updatedProducts)
+      .updateCart(user?.userId, updatedProducts)
       .then(data => {
         setCartItems(data);
         alert("The product has been successfully added to cart DB");
@@ -67,7 +67,7 @@ export const Cart = () => {
     });
 
     cartService
-      .updateCart(user?.email, updatedProducts)
+      .updateCart(user?.userId, updatedProducts)
       .then(data => {
         setCartItems(data);
         alert("The product has been successfully added to cart DB");
@@ -90,7 +90,7 @@ export const Cart = () => {
       .then(() => {
         alert("The order has been successfully added to DB");
         cartService
-          .updateCart(user?.email, [])
+          .updateCart(user?.userId, [])
           .then(data => {
             console.log(data);
             setCartItems(data);
