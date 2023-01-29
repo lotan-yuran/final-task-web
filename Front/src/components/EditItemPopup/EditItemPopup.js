@@ -50,6 +50,12 @@ const textFields = [
       },
       startAdornment: <InputAdornment position="start">$</InputAdornment>
     }
+  },
+  {
+    field: "imageURL",
+    label: "Image Url",
+    required: true,
+    type: "url"
   }
 ];
 
