@@ -40,7 +40,7 @@ export const Product = () => {
     };
 
     cartService
-      .updateCart(user?.email, updatedProducts(product))
+      .updateCart(user?.userId, updatedProducts(product))
       .then(data => {
         setCartItems(data);
         alert("The product has been successfully added to cart DB");
