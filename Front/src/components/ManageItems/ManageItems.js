@@ -55,7 +55,6 @@ export const ManageItems = ({ title }) => {
               return !itemIdsToDelete.has(item._id);
             });
           });
-          alert("The product has been successfully deleted from DB");
         })
         .catch(error => {
           console.error(error.message);
@@ -75,7 +74,6 @@ export const ManageItems = ({ title }) => {
         setItems(prevItems => {
           return prevItems.map(item => (item._id === response._id ? response : item));
         });
-        alert("The product has been successfully added to DB");
       })
       .catch(err => {
         console.error(err);
@@ -97,7 +95,6 @@ export const ManageItems = ({ title }) => {
       .addProduct(newItem)
       .then(response => {
         setItems(prevItems => [...prevItems, response]);
-        alert("The product has been successfully added to DB");
       })
       .catch(err => {
         console.error(err);

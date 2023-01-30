@@ -1,7 +1,8 @@
 import { useEffect, useState, createContext } from "react";
 
-const WEBSOCKET_URL = "ws://localhost:3001";
-const ws = new WebSocket(WEBSOCKET_URL);
+// eslint-disable-next-line no-undef
+const { REACT_APP_WEBSOCKET_URL } = process.env;
+const ws = new WebSocket(REACT_APP_WEBSOCKET_URL);
 
 export const SocketContext = createContext(null);
 
@@ -12,7 +13,7 @@ export const SocketProvider = ({ children }) => {
     socket.onclose = () => {
       // Reconnect after a delay
       setTimeout(() => {
-        setSocket(new WebSocket(WEBSOCKET_URL));
+        setSocket(new WebSocket(REACT_APP_WEBSOCKET_URL));
       }, 1000);
     };
   }, [socket]);

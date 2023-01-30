@@ -10,7 +10,7 @@
 // router.get("/categories", async (req, res) => {
 //   try {
 //     const response = await axios.get(
-//       "https://dummyjson.com/products/categories"
+//       `${process.env.SCRAPING_API}/products/categories`
 //     );
 
 //     const categoriesToCreate = response.data.map((category) => ({
@@ -33,7 +33,9 @@
 //       return acc;
 //     }, new Map());
 
-//     const response = await axios.get("https://dummyjson.com/products?limit=100");
+//     const response = await axios.get(
+//       `${process.env.SCRAPING_API}/products?limit=100`
+//     );
 
 //     const productsToCreate = response.data.products.map(
 //       ({ title, description, price, images, category }) => ({

@@ -15,28 +15,22 @@ import { SelectField } from "../../components";
 const textFields = [
   {
     field: "_id",
-    id: "outlined-read-only-input",
     label: "Item ID",
-    inputProps: {
-      readOnly: true
-    }
+    disabled: true
   },
   {
     field: "name",
-    id: "outlined-name",
     label: "Item Name",
     required: true,
     autoFocus: true
   },
   {
     field: "description",
-    id: "outlined-name",
     label: "Description",
     required: true
   },
   {
     field: "price",
-    id: "outlined-start-adornment",
     label: "Price",
     required: true,
     type: "number",
@@ -61,7 +55,6 @@ const textFields = [
 
 const categoryField = {
   field: "category",
-  id: "demo-simple-select-required",
   label: "Category",
   required: true
 };
@@ -115,15 +108,15 @@ export const EditItemPopup = ({
         </Alert>
       )}
       <DialogContent>
-        {textFields.map(({ field, id, label, type, InputProps, autoFocus, required }) => {
+        {textFields.map(({ field, label, type, InputProps, autoFocus, required, disabled }) => {
           const value = editedItem?.[field];
           const valueTrimLength = value?.toString().trim().length;
 
           return (
             <StyledTextField
               key={field}
-              id={id}
               label={label}
+              disabled={disabled}
               type={type}
               defaultValue={value}
               required={required}

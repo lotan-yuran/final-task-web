@@ -23,9 +23,8 @@ export const LiveData = () => {
       <Grid container spacing={2} justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography component="span" variant="h4" color="text.primary" fontWeight="bold">
-            Number of connected users: {connectedUsers}
+            Number of open sessions: {connectedUsers}
           </Typography>
-          {/* <Box>Number of connected users: {connectedUsers}</Box> */}
         </Grid>
         <Grid item>
           <QuantityButton
