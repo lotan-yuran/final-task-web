@@ -77,10 +77,10 @@ export const Login = () => {
       } catch (error) {
         switch (error.response.data.error.message) {
           case "INVALID_PASSWORD":
-            setError("Invalid password!");
+            setError("Password is incorrect!");
             break;
           case "EMAIL_NOT_FOUND":
-            setError("Invalid email!");
+            setError("Email not found!");
             break;
           default:
             setError("A problem occurred in login process! :(");
