@@ -71,8 +71,6 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate replace to="/login" />} />
-
         <Route element={<LayoutNavbar />}>
           <Route element={<ProtectedLoginRoute />}>
             <Route path="/store" element={<Store searchText={searchText} setSearchText={setSearchText} />} />
@@ -91,6 +89,7 @@ export default function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path="*" element={<Navigate replace to="/store" />} />
       </Routes>
     </Router>

@@ -85,7 +85,6 @@ export const Store = ({ searchText, setSearchText }) => {
       .updateCart(user?.email, updatedProducts(newItemId))
       .then(data => {
         setCartItems(data);
-        alert("The product has been successfully added to cart DB");
       })
       .catch(err => {
         console.error(err);
