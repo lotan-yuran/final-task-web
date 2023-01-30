@@ -4,7 +4,7 @@ import { userState } from "../User/userAtom";
 import cartService from "../../services/cartService";
 
 export const cartItemSelector = selector({
-  key: "",
+  key: "cartItemSelector",
   get: async ({ get }) => {
     const { email: userId } = get(userState);
     try {

@@ -40,7 +40,7 @@ export const Cart = () => {
       .map(cartItem => ({ product: cartItem.product._id, quantity: cartItem.quantity }));
 
     cartService
-      .updateCart(user?.email, updatedProducts)
+      .updateCart(user?.userId, updatedProducts)
       .then(data => {
         setCartItems(data);
         alert("The product has been successfully added to cart DB");
@@ -67,7 +67,7 @@ export const Cart = () => {
     });
 
     cartService
-      .updateCart(user?.email, updatedProducts)
+      .updateCart(user?.userId, updatedProducts)
       .then(data => {
         setCartItems(data);
         alert("The product has been successfully added to cart DB");
@@ -89,7 +89,18 @@ export const Cart = () => {
       .addOrder({ products, ...userDetails })
       .then(() => {
         alert("The order has been successfully added to DB");
-        setCartItems([]);
+        cartService
+          .updateCart(user?.userId, [])
+          .then(data => {
+            console.log(data);
+            setCartItems(data);
+            alert("The cart has successfully got cleaned");
+          })
+          .catch(err => {
+            console.error(err);
+            alert("Clean cart failed");
+          });
+        // setCartItems([]);
       })
       .catch(err => {
         console.error(err);
